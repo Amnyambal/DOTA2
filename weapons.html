@@ -516,15 +516,6 @@
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get('user');
         }
-
-        // Устанавливаем информацию о пользователе
-        function setUserInfo() {
-    const username = getUsernameFromURL() || 'Гость';
-    document.getElementById('username-display').textContent = username;
-    document.getElementById('user-avatar').textContent = username.charAt(0).toUpperCase();
-}
-        }
-
         // Выход из системы
         document.getElementById('logout-btn').addEventListener('click', function() {
             window.location.href = 'login.html';

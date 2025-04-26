@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Access</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --bg: #1a1d24;
+          --text: #f4f4f4;
+          --accent: #00ffe7;
+          --card: #242833;
+          --error: #ff4d4d;
+          --success: #27c93f;
+        }
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: 'Rubik', sans-serif;
+          background: var(--bg);
+          color: var(--text);
+          height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+        }
+
+        .particles {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+          overflow: hidden;
+        }
+
+        .particle {
+          position: absolute;
+          background: var(--accent);
+          border-radius: 50%;
+          opacity: 0.3;
+          animation: float linear infinite;
+        }
+
+        @keyframes float {
+          0% { transform: translateY(0) translateX(0); }
+          50% { transform: translateY(-100px) translateX(100px); }
+          100% { transform: translateY(0) translateX(0); }
+        }
+
+        .auth-container {
+          background: var(--card);
+          border-radius: 16px;
+          padding: 40px;
+          width: 100%;
+          max-width: 420px;
+          box-shadow: 
+            0 0 0 1px rgba(0, 255, 231, 0.1),
+            0 10px 30px rgba(0, 0, 0, 0.5),
+            0 0 40px rgba(0, 255, 231, 0.1);
+          position: relative;
+          border: 1px solid rgba(0, 255, 231, 0.1);
+        }
+
+        .auth-container::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          border-radius: 16px;
+          pointer-events: none;
+          box-shadow: inset 0 0 20px rgba(0, 255, 231, 0.05);
+        }
+
+        .auth-title {
+          font-size: 26px;
+          margin-bottom: 30px;
+          color: var(--accent);
+          text-align: center;
+          position: relative;
+          font-weight: 500;
+          letter-spacing: 1px;
+        }
+
+        .auth-title::after {
+          content: '';
+          position: absolute;
+          bottom: -10px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 60px;
+          height: 2px;
+          background: var(--accent);
+          border-radius: 2px;
+        }
+
+        .input-group {
+          margin-bottom: 25px;
+        }
+
+        .input-group label {
+          display: block;
+          margin-bottom: 8px;
+          color: rgba(244, 244, 244, 0.8);
+          font-size: 14px;
+          font-weight: 400;
+        }
+
+        .input-group input {
+          width: 100%;
+          padding: 14px 16px;
+          background: rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(0, 255, 231, 0.1);
+          border-radius: 8px;
+          color: var(--text);
+          font-family: inherit;
+          transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+          outline: none;
+          border-color: var(--accent);
+          box-shadow: 0 0 0 2px rgba(0, 255, 231, 0.2);
+        }
+
+        .input-group input::placeholder {
+          color: rgba(244, 244, 244, 0.4);
+        }
+
+        .auth-btn {
+          width: 100%;
+          background: var(--accent);
+          color: var(--bg);
+          padding: 14px;
+          border: none;
+          border-radius: 8px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-size: 16px;
+          margin-top: 10px;
+          position: relative;
+          overflow: hidden;
+          z-index: 1;
+        }
+
+        .auth-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(0, 255, 231, 0.3);
+        }
+
+        .auth-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, 
+            transparent, 
+            rgba(255, 255, 255, 0.1), 
+            transparent);
+          transition: 0.5s;
+          z-index: -1;
+        }
+
+        .auth-btn:hover::before {
+          left: 100%;
+        }
+
+        .message {
+          margin-top: 20px;
+          padding: 12px;
+          border-radius: 8px;
+          text-align: center;
+          font-weight: 500;
+          display: none;
+          font-size: 14px;
+        }
+
+        .error {
+          background: rgba(255, 77, 77, 0.1);
+          color: var(--error);
+          border: 1px solid rgba(255, 77, 77, 0.3);
+          display: block;
+        }
+
+        .success {
+          background: rgba(39, 201, 63, 0.1);
+          color: var(--success);
+          border: 1px solid rgba(39, 201, 63, 0.3);
+          display: block;
+        }
+
+        .password-toggle {
+          position: absolute;
+          right: 15px;
+          top: 40px;
+          color: rgba(244, 244, 244, 0.6);
+          cursor: pointer;
+          user-select: none;
+        }
+
+        .password-toggle:hover {
+          color: var(--accent);
+        }
+
+        @media (max-width: 480px) {
+          .auth-container {
+            padding: 30px 20px;
+            margin: 0 15px;
+          }
+          
+          .auth-title {
+            font-size: 22px;
+          }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="auth-container">
+        <h1 class="auth-title">ДОСТУП К СИСТЕМЕ</h1>
+        
+        <div class="input-group" style="position: relative;">
+            <label for="username">Логин</label>
+            <input type="text" id="username" placeholder="Введите ваш логин" autocomplete="off">
+        </div>
+        
+        <div class="input-group" style="position: relative;">
+            <label for="password">Пароль</label>
+            <input type="password" id="password" placeholder="Введите ваш пароль">
+            <span class="password-toggle" id="togglePassword">👁️</span>
+        </div>
+        
+        <button class="auth-btn" id="login-btn">ВОЙТИ</button>
+        
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        // Логины и пароли
+        const credentials = [
+            { username: "Амрам", password: "12345" },
+        ];
+
+        // Создаем частицы для фона
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                const duration = Math.random() * 20 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Переключение видимости пароля
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.textContent = type === 'password' ? '👁️' : '🔒';
+        });
+
+        // Проверка авторизации
+        document.getElementById('login-btn').addEventListener('click', function() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const messageEl = document.getElementById('message');
+            
+            if (!username || !password) {
+                messageEl.textContent = 'Введите логин и пароль';
+                messageEl.className = 'message error';
+                return;
+            }
+            
+            const user = credentials.find(u => 
+                u.username.toLowerCase() === username.toLowerCase() && 
+                u.password === password
+            );
+            
+            if (user) {
+                messageEl.textContent = `Доступ разрешен, ${user.username}!`;
+                messageEl.className = 'message success';
+                
+                // Перенаправление на index.html через 1.5 секунды
+                setTimeout(() => {
+                    window.location.href = 'index.html?user=' + encodeURIComponent(username);
+                }, 1);
+            } else {
+                messageEl.textContent = 'Неверный логин или пароль';
+                messageEl.className = 'message error';
+            }
+        });
+
+        // Вход по нажатию Enter
+        document.getElementById('password').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('login-btn').click();
+            }
+        });
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', createParticles);
+    </script>
+</body>
+</html>

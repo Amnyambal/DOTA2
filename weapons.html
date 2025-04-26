@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkinWiki | Оружие</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #1a1d24;
+            --text: #f4f4f4;
+            --accent: #00ffe7;
+            --card: #242833;
+            --error: #ff4d4d;
+            --success: #27c93f;
+            --section-bg: rgba(36, 40, 51, 0.7);
+            --banned: rgba(255, 77, 77, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-100px) translateX(100px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+
+        header {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(26, 29, 36, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 231, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 22px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 14px;
+            margin-right: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin: 20px 0;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-title i {
+            font-size: 24px;
+        }
+
+        .weapons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .weapon-card {
+            background: var(--section-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 231, 0.1);
+            position: relative;
+        }
+
+        .weapon-card.banned {
+            background: var(--banned);
+            border-color: rgba(255, 77, 77, 0.3);
+        }
+
+        .weapon-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 231, 0.1);
+            border-color: var(--accent);
+        }
+
+        .weapon-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(0, 255, 231, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .weapon-img:hover {
+            transform: scale(1.03);
+        }
+
+        .weapon-info {
+            padding: 15px;
+        }
+
+        .weapon-name {
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .weapon-id {
+            font-size: 14px;
+            color: var(--accent);
+            opacity: 0.8;
+        }
+
+        .banned-label {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--error);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .no-image {
+            width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            color: rgba(244, 244, 244, 0.5);
+            font-size: 14px;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 231, 0.2);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 16px;
+            padding-right: 40px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(0, 255, 231, 0.2);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            background: rgba(0, 255, 231, 0.1);
+            border: 1px solid rgba(0, 255, 231, 0.2);
+            color: var(--accent);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid rgba(0, 255, 231, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+            margin-top: 40px;
+        }
+
+        /* Стили для модального окна */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            display: block;
+            margin: auto;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0, 255, 231, 0.5);
+            animation: zoomIn 0.3s;
+        }
+
+        @keyframes zoomIn {
+            from { transform: translate(-50%, -50%) scale(0.9); }
+            to { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: var(--accent);
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close:hover {
+            color: var(--error);
+            transform: rotate(90deg);
+        }
+
+        /* Стили для выделенного оружия */
+        .highlighted {
+            animation: pulse 1.5s infinite;
+            border: 2px solid var(--accent);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 231, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 231, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 231, 0); }
+        }
+
+        /* Стили для мобильных */
+        @media (max-width: 768px) {
+            .weapons-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .weapon-img {
+                height: 150px;
+            }
+
+            .modal-content {
+                max-width: 95%;
+                max-height: 80%;
+            }
+
+            .close {
+                font-size: 30px;
+                top: 15px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .weapons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <!-- Модальное окно для увеличения фото -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    
+    <header>
+        <a href="index.html?user=Амрам" class="logo">
+            <i class="fas fa-database"></i>
+            <span>SkinWiki</span>
+        </a>
+        
+        <div class="user-info">
+            <span id="username-display">Амрам</span>
+            <div class="user-avatar" id="user-avatar">А</div>
+            <button class="logout-btn" id="logout-btn">Выйти</button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="filters">
+            <a href="index.html?user=Амрам" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Назад
+            </a>
+            <button class="filter-btn active" data-filter="all">Все</button>
+            <button class="filter-btn" data-filter="available">Доступные</button>
+            <button class="filter-btn" data-filter="banned">Запрещенные</button>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Поиск по ID или названию..." id="weapon-search">
+            <button class="search-btn" id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        
+        <h1 class="page-title">
+            <i class="fas fa-gun"></i>
+            Оружие
+        </h1>
+        
+        <div class="weapons-grid" id="weapons-container">
+            <!-- Оружие будет загружено через JavaScript -->
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2023 SkinWiki. Все права защищены.</p>
+    </footer>
+
+    <script>
+        // Массив с оружием
+        const weapons = [
+            { id: 1, name: "Кастет", image: "фотки оружия/Кастет (1).jpg", banned: false },
+            { id: 2, name: "Клюшка для гольфа", image: "фотки оружия/Клюшка для гольфа (2).jpg", banned: false },
+            { id: 3, name: "Дубинка", image: "фотки оружия/Дубинка (3).jpg", banned: false },
+            { id: 4, name: "Нож", image: "фотки оружия/Нож (4).jpg", banned: false },
+            { id: 5, name: "Бита", image: "фотки оружия/Бита (5).jpg", banned: false },
+            { id: 6, name: "Лопата", image: "фотки оружия/Лопата (6).jpg", banned: false },
+            { id: 7, name: "Кий", image: "фотки оружия/Кий (7).jpg", banned: false },
+            { id: 8, name: "Катана", image: "фотки оружия/Катана (8).jpg", banned: false },
+            { id: 9, name: "Бензопила", image: "фотки оружия/Бензопила (9).jpg", banned: false },
+            { id: 10, name: "Фиолетовый дилдо", image: "фотки оружия/Фиолетовый дилдо (10).jpg", banned: false },
+            { id: 11, name: "Дилдо", image: "фотки оружия/Дилдо (11).jpg", banned: false },
+            { id: 12, name: "Вибратор", image: "фотки оружия/Вибратор (12).jpg", banned: false },
+            { id: 13, name: "Серебряный Вибратор", image: "фотки оружия/Серебряный Вибратор (13).jpg", banned: false },
+            { id: 14, name: "Цветы", image: "фотки оружия/Цветы (14).jpg", banned: false },
+            { id: 15, name: "Топор", image: "фотки оружия/Топор (15).jpg", banned: false },
+            { id: 16, name: "Граната", image: "фотки оружия/Граната (16).jpg", banned: false },
+            { id: 17, name: "Запрет", image: null, banned: true },
+            { id: 18, name: "Запрет", image: null, banned: true },
+            { id: 19, name: "Запрет", image: null, banned: true },
+            { id: 20, name: "Запрет", image: null, banned: true },
+            { id: 21, name: "Запрет", image: null, banned: true },
+            { id: 22, name: "Пистолет", image: "фотки оружия/Пистолет (22).jpg", banned: false },
+            { id: 23, name: "Парализатор", image: "фотки оружия/Парализатор (23).jpg", banned: false },
+            { id: 24, name: "Desert Eagle", image: "фотки оружия/Desert Eagle (24).jpg", banned: false },
+            { id: 25, name: "Дробовик", image: "фотки оружия/Дробовик (25).jpg", banned: false },
+            { id: 26, name: "Обрез", image: "фотки оружия/Обрез (26).jpg", banned: false },
+            { id: 27, name: "Тактический дробовик", image: "фотки оружия/Тактический дробовик (27).jpg", banned: false },
+            { id: 28, name: "Micro-Uzi", image: "фотки оружия/Micro-Uzi (28).jpg", banned: false },
+            { id: 29, name: "MP5", image: "фотки оружия/MP5 (29).jpg", banned: false },
+            { id: 30, name: "AK47", image: "фотки оружия/AK47 (30).jpg", banned: false },
+            { id: 31, name: "AK47M", image: "фотки оружия/AK47M (31).jpg", banned: false },
+            { id: 32, name: "TEC9", image: "фотки оружия/TEC9 (32).jpg", banned: false },
+            { id: 33, name: "Винтовка", image: "фотки оружия/Винтовка (33).jpg", banned: false },
+            { id: 34, name: "Снайперская винтовка", image: "фотки оружия/Снайперская винтовка (34).jpg", banned: false },
+            { id: 35, name: "Запрет", image: null, banned: true },
+            { id: 36, name: "Запрет", image: null, banned: true },
+            { id: 37, name: "Запрет", image: null, banned: true },
+            { id: 38, name: "Запрет", image: null, banned: true },
+            { id: 39, name: "Запрет", image: null, banned: true },
+            { id: 40, name: "Запрет", image: null, banned: true },
+            { id: 41, name: "Запрет", image: null, banned: true },
+            { id: 42, name: "Огнетушитель", image: null, banned: false },
+            { id: 43, name: "Фотоаппарат", image: null, banned: false },
+            { id: 44, name: "Очки ночного видения", image: null, banned: false },
+            { id: 45, name: "Очки с тепловизором", image: null, banned: false },
+            { id: 46, name: "Парашют", image: null, banned: false }
+        ];
+
+        // Получаем имя пользователя из URL
+        function getUsernameFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('user');
+        }
+
+        // Устанавливаем информацию о пользователе
+        function setUserInfo() {
+            const username = checkAuth();
+            if (username) {
+                document.getElementById('username-display').textContent = username;
+                document.getElementById('user-avatar').textContent = username.charAt(0).toUpperCase();
+            }
+        }
+
+        // Выход из системы
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            window.location.href = 'login.html';
+        });
+
+        // Создаем карточки оружия
+        function renderWeapons(filter = 'all', searchQuery = '') {
+            const container = document.getElementById('weapons-container');
+            container.innerHTML = '';
+            
+            let filteredWeapons = [...weapons];
+            
+            // Применяем фильтр
+            if (filter !== 'all') {
+                filteredWeapons = filteredWeapons.filter(weapon => 
+                    filter === 'available' ? !weapon.banned : weapon.banned
+                );
+            }
+            
+            // Применяем поиск, если есть запрос
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filteredWeapons = filteredWeapons.filter(weapon => 
+                    weapon.name.toLowerCase().includes(query) || 
+                    weapon.id.toString().includes(query)
+                );
+            }
+            
+            if (filteredWeapons.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; opacity: 0.7;">Ничего не найдено</p>';
+                return;
+            }
+            
+            filteredWeapons.forEach(weapon => {
+                const card = document.createElement('div');
+                card.className = `weapon-card ${weapon.banned ? 'banned' : ''}`;
+                
+                card.innerHTML = `
+                    ${weapon.image ? 
+                        `<img src="${weapon.image}" alt="${weapon.name}" class="weapon-img" loading="lazy">` : 
+                        `<div class="no-image">Нет изображения</div>`
+                    }
+                    <div class="weapon-info">
+                        <h3 class="weapon-name">${weapon.name}</h3>
+                        <div class="weapon-id">ID: ${weapon.id}</div>
+                    </div>
+                    ${weapon.banned ? '<div class="banned-label">ЗАПРЕЩЕНО</div>' : ''}
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Если есть поисковый запрос, подсвечиваем найденные элементы
+            if (searchQuery) {
+                highlightSearchResults(searchQuery);
+            }
+        }
+
+        // Подсветка результатов поиска
+        function highlightSearchResults(query) {
+            const cards = document.querySelectorAll('.weapon-card');
+            const lowerQuery = query.toLowerCase();
+            
+            cards.forEach(card => {
+                card.classList.remove('highlighted');
+                
+                const weaponName = card.querySelector('.weapon-name').textContent.toLowerCase();
+                const weaponId = card.querySelector('.weapon-id').textContent.toLowerCase();
+                
+                if (weaponName.includes(lowerQuery) || weaponId.includes(lowerQuery)) {
+                    card.classList.add('highlighted');
+                    
+                    // Прокручиваем к первому найденному элементу
+                    if (!document.querySelector('.highlighted:first-of-type')) {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }
+            });
+        }
+
+        // Фильтрация оружия
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filter = this.dataset.filter;
+                const searchQuery = document.getElementById('weapon-search').value.trim();
+                renderWeapons(filter, searchQuery);
+            });
+        });
+
+        // Поиск оружия
+        document.getElementById('weapon-search').addEventListener('input', function() {
+            const filter = document.querySelector('.filter-btn.active').dataset.filter;
+            const searchQuery = this.value.trim();
+            renderWeapons(filter, searchQuery);
+        });
+
+        // Поиск по кнопке
+        document.getElementById('search-btn').addEventListener('click', function() {
+            const filter = document.querySelector('.filter-btn.active').dataset.filter;
+            const searchQuery = document.getElementById('weapon-search').value.trim();
+            renderWeapons(filter, searchQuery);
+        });
+
+        // Модальное окно для увеличения изображений
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        const closeBtn = document.querySelector(".close");
+
+        // Обработчики для всех изображений оружия
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('weapon-img')) {
+                modal.style.display = "block";
+                modalImg.src = e.target.src;
+                document.body.style.overflow = "hidden";
+            }
+        });
+
+        // Закрытие модального окна
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
+        // Закрытие при клике вне изображения
+        modal.onclick = function(e) {
+            if (e.target === modal) {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        }
+
+        // Закрытие по ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape" && modal.style.display === "block") {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        });
+
+        // Создаем частицы для фона
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = window.innerWidth < 768 ? 15 : 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                const duration = Math.random() * 20 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            setUserInfo();
+            
+            // Устанавливаем активной кнопку "Все" при загрузке
+            document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+            
+            // Сразу рендерим все оружие
+            renderWeapons('all');
+            
+            // Обработка параметров URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('search');
+            
+            if (searchQuery) {
+                document.getElementById('weapon-search').value = searchQuery;
+                renderWeapons('all', searchQuery);
+            }
+        });
+    </script>
+</body>
+</html>

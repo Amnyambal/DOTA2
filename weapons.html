@@ -519,11 +519,10 @@
 
         // Устанавливаем информацию о пользователе
         function setUserInfo() {
-            const username = checkAuth();
-            if (username) {
-                document.getElementById('username-display').textContent = username;
-                document.getElementById('user-avatar').textContent = username.charAt(0).toUpperCase();
-            }
+    const username = getUsernameFromURL() || 'Гость';
+    document.getElementById('username-display').textContent = username;
+    document.getElementById('user-avatar').textContent = username.charAt(0).toUpperCase();
+}
         }
 
         // Выход из системы
@@ -693,14 +692,20 @@
 
         // Инициализация
         document.addEventListener('DOMContentLoaded', function() {
-            createParticles();
-            setUserInfo();
-            
-            // Устанавливаем активной кнопку "Все" при загрузке
-            document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
-            
-            // Сразу рендерим все оружие
-            renderWeapons('all');
+    createParticles();
+    
+    // Устанавливаем имя пользователя из URL
+    const username = getUsernameFromURL();
+    if(username) {
+        document.getElementById('username-display').textContent = username;
+        document.getElementById('user-avatar').textContent = username.charAt(0).toUpperCase();
+    }
+    
+    // Устанавливаем активной кнопку "Все" при загрузке
+    document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+    
+    // Сразу рендерим все оружие
+    renderWeapons('all');
             
             // Обработка параметров URL
             const urlParams = new URLSearchParams(window.location.search);

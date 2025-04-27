@@ -244,7 +244,7 @@
         <div class="input-group">
             <label for="password">Пароль</label>
             <input type="password" id="password" placeholder="Введите ваш пароль">
-            <span class="password-toggle" id="togglePassword">👁️</span>
+            <span class="password-toggle" id="togglePassword">????️</span>
         </div>
         
         <button class="auth-btn" id="login-btn">ВОЙТИ</button>
@@ -252,13 +252,14 @@
         <div class="message" id="message"></div>
     </div>
 
-    <!-- Подключаем Supabase JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
+    <!-- Весь скрипт через type="module" -->
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
+
         // Инициализация Supabase
         const supabaseUrl = 'https://mzvqlcxusjyxzmgucsgz.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im16dnFsY3h1c2p5eHptZ3Vjc2d6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU3NTYzODQsImV4cCI6MjA2MTMzMjM4NH0.6Pdnw8DWqE5oxsMTZ8TynlFvQ6OPtXsYPR-sy6cnfY8';
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        const supabase = createClient(supabaseUrl, supabaseKey);
 
         // Создаем частицы для фона
         function createParticles() {
@@ -292,7 +293,7 @@
                 togglePassword.addEventListener('click', function() {
                     const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
                     passwordInput.setAttribute('type', type);
-                    this.textContent = type === 'password' ? '👁️' : '🔒';
+                    this.textContent = type === 'password' ? '????️' : '????';
                 });
             }
         }
@@ -326,7 +327,7 @@
                         
                         if (error) throw error;
                         
-                        // Получаем имя пользователя из email (все что до @)
+                        // Получаем имя пользователя из email (всё до @)
                         const username = email.split('@')[0];
                         
                         messageEl.textContent = `Доступ разрешен, ${username}!`;
@@ -360,7 +361,7 @@
             }
         }
 
-        // Инициализация
+        // Инициализация после загрузки страницы
         document.addEventListener('DOMContentLoaded', function() {
             createParticles();
             setupPasswordToggle();
@@ -369,4 +370,3 @@
         });
     </script>
 </body>
-</html>

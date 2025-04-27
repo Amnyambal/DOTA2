@@ -662,6 +662,10 @@
                     if (filter === 'premium') return house.type === 'Премиум класс';
                     if (filter === 'middle') return house.type === 'Средний класс';
                     if (filter === 'village') return house.type === 'Деревенский домик';
+                    if (filter.startsWith('location:')) {
+                        const location = filter.split(':')[1];
+                        return house.location.includes(location);
+                    }
                     return true;
                 });
             }

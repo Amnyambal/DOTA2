@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> ЖУЖУЖУ | Скины</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #1a1d24;
+            --text: #f4f4f4;
+            --accent: #00ffe7;
+            --card: #242833;
+            --error: #ff4d4d;
+            --success: #27c93f;
+            --section-bg: rgba(36, 40, 51, 0.7);
+            --banned: rgba(255, 77, 77, 0.1);
+            --price: #ffd700;
+            --source-blackpass: #a335ee;
+            --source-shop: #4c8bf5;
+            --source-donate: #ff8000;
+            --source-other: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-100px) translateX(100px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+
+        header {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(26, 29, 36, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 231, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 22px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .logout-btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 14px;
+            margin-right: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin: 20px 0;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-title i {
+            font-size: 24px;
+        }
+
+        .skins-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .skin-card {
+            background: var(--section-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 231, 0.1);
+            position: relative;
+        }
+
+        .skin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 231, 0.1);
+            border-color: var(--accent);
+        }
+
+        .skin-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(0, 255, 231, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .skin-img:hover {
+            transform: scale(1.03);
+        }
+
+        .skin-info {
+            padding: 15px;
+        }
+
+        .skin-name {
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .skin-id {
+            font-size: 14px;
+            color: var(--accent);
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .skin-details {
+            font-size: 13px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .skin-details i {
+            color: var(--accent);
+            width: 16px;
+            text-align: center;
+        }
+
+        .skin-price {
+            color: var(--price);
+            font-weight: 500;
+        }
+
+        .skin-source {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 5px;
+        }
+
+        .source-1 { display: none; }
+        .source-2 { background-color: var(--source-blackpass); }
+        .source-3 { background-color: var(--source-shop); }
+        .source-4 { background-color: var(--source-donate); }
+        .source-5 { background-color: var(--source-other); color: #333; }
+
+        .no-image {
+            width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            color: rgba(244, 244, 244, 0.5);
+            font-size: 14px;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 231, 0.2);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 16px;
+            padding-right: 40px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(0, 255, 231, 0.2);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            background: rgba(0, 255, 231, 0.1);
+            border: 1px solid rgba(0, 255, 231, 0.2);
+            color: var(--accent);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid rgba(0, 255, 231, 0.1);
+            font-size: 14px;
+            opacity: 0.7;
+            margin-top: 40px;
+        }
+
+        /* Стили для модального окна */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            display: block;
+            margin: auto;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0, 255, 231, 0.5);
+            animation: zoomIn 0.3s;
+        }
+
+        @keyframes zoomIn {
+            from { transform: translate(-50%, -50%) scale(0.9); }
+            to { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: var(--accent);
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close:hover {
+            color: var(--error);
+            transform: rotate(90deg);
+        }
+
+        /* Стили для выделенного скина */
+        .highlighted {
+            animation: pulse 1.5s infinite;
+            border: 2px solid var(--accent);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 231, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 231, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 231, 0); }
+        }
+
+        /* Стили для дополнительной информации */
+        .additional-info {
+            display: none;
+            padding: 10px;
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            font-size: 13px;
+            border-left: 3px solid var(--accent);
+        }
+        
+        .toggle-info {
+            color: var(--accent);
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 5px;
+            display: inline-block;
+        }
+        
+        .toggle-info:hover {
+            text-decoration: underline;
+        }
+
+        /* Стили для мобильных */
+        @media (max-width: 768px) {
+            .skins-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .skin-img {
+                height: 150px;
+            }
+
+            .modal-content {
+                max-width: 95%;
+                max-height: 80%;
+            }
+
+            .close {
+                font-size: 30px;
+                top: 15px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .skins-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <!-- Модальное окно для увеличения фото -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    
+    <header>
+        <a href="index.html?user=Амрам" class="logo">
+            <i class="fas fa-database"></i>
+            <span>SkinWiki</span>
+        </a>
+        
+        <div class="user-info">
+            <span id="username-display">Лямбля</span>
+            <div class="user-avatar" id="user-avatar">А</div>
+            <button class="logout-btn" id="logout-btn">Выйти</button>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="filters">
+            <a href="index.html?user=Амрам" class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+                Назад
+            </a>
+            <button class="filter-btn active" data-filter="1">Все</button>
+            <button class="filter-btn" data-filter="2">BlackPass</button>
+            <button class="filter-btn" data-filter="3">Магазин одежды</button>
+            <button class="filter-btn" data-filter="4">Донат Магазин</button>
+            <button class="filter-btn" data-filter="5">Другое</button>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Поиск по ID, названию или названию в магазине..." id="skin-search">
+            <button class="search-btn" id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+        
+        <h1 class="page-title">
+            <i class="fas fa-user-astronaut"></i>
+            Скины
+        </h1>
+        
+        <div class="skins-grid" id="skins-container">
+            <!-- Скины будут загружены через JavaScript -->
+        </div>
+    </div>
+    
+    <footer>
+        <p>ЖЖЖЖЖЖЖЖЖЖЖ АУУУАААААУУ</p>
+    </footer>
+
+    <script>
+        // Массив со скинами (20 пустых слотов + примеры)
+        const skins = [
+            { 
+                id: 1,
+                name: "Киберспортсмен", 
+                shopName: "КИБЕР НИНДЗЯ", 
+                price: "1.000.000", 
+                donatePrice: "1.200 BC", 
+                image: "skini/Киберспортсмен.jpg", 
+                source: 4,
+                additionalInfo: "Скин для настоящих профессионалов"
+            },
+            { 
+                id: 2, 
+                name: "Рикардо Милос", 
+                shopName: "", 
+                price: "", 
+                donatePrice: "2.500 BC", 
+                image: "skini/Рикардо Милос (2).jpg", 
+                source: 4,
+                additionalInfo: "Легендарный танцор"
+            },
+            { 
+                id: 3,
+                name: "Темный рыцарь", 
+                shopName: "", 
+                price: "Бесплатно", 
+                donatePrice: "", 
+                image: "skini/Темный рыцарь.jpg", 
+                source: 2,
+                additionalInfo: "Награда за 100 побед"
+            },
+            { 
+                id: 4,
+                name: "Золотой дракон", 
+                shopName: "ЗОЛОТОЙ ВАРВАР", 
+                price: "3.000.000", 
+                donatePrice: "", 
+                image: "skini/Золотой дракон.jpg", 
+                source: 3,
+                additionalInfo: "Эксклюзивный скин"
+            },
+            { 
+                id: 5,
+                name: "Фермер", 
+                shopName: "", 
+                price: "300.000", 
+                donatePrice: "", 
+                image: "skini/Фермер.jpg", 
+                source: 3
+            },
+            // Пустые слоты для заполнения (15 штук)
+            { id: 6, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 7, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 8, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 9, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 10, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 11, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 12, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 13, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 14, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 15, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 16, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 17, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 18, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 19, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" },
+            { id: 20, name: "", shopName: "", price: "", donatePrice: "", image: "skini/.jpg", source: 1, additionalInfo: "" }
+        ];
+
+        // Получаем имя пользователя из URL
+        function getUsernameFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('user');
+        }
+        
+        // Выход из системы
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            window.location.href = 'login.html';
+        });
+
+        // Создаем карточки скинов
+        function renderSkins(filter = '1', searchQuery = '') {
+            const container = document.getElementById('skins-container');
+            container.innerHTML = '';
+            
+            let filteredSkins = [...skins];
+            
+            // Применяем фильтр
+            if (filter !== '1') {
+                filteredSkins = filteredSkins.filter(skin => skin.source.toString() === filter);
+            }
+            
+            // Применяем поиск
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase();
+                filteredSkins = filteredSkins.filter(skin => 
+                    (skin.name && skin.name.toLowerCase().includes(query)) || 
+                    skin.id.toString().includes(query) ||
+                    (skin.shopName && skin.shopName.toLowerCase().includes(query))
+                );
+            }
+            
+            // Фильтруем пустые скины (без имени)
+            filteredSkins = filteredSkins.filter(skin => skin.name && skin.name.trim() !== '');
+            
+            if (filteredSkins.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; opacity: 0.7;">Ничего не найдено</p>';
+                return;
+            }
+            
+            filteredSkins.forEach(skin => {
+                const card = document.createElement('div');
+                card.className = `skin-card`;
+                
+                // Основная информация
+                let html = `
+                    ${skin.image ? 
+                        `<img src="${skin.image}" alt="${skin.name}" class="skin-img" loading="lazy">` : 
+                        `<div class="no-image">Нет изображения</div>`
+                    }
+                    <div class="skin-info">
+                        <h3 class="skin-name">${skin.name}</h3>
+                        <div class="skin-id">ID: ${skin.id}</div>
+                `;
+                
+                // Название в магазине (если есть)
+                if (skin.shopName && skin.shopName.trim() !== '') {
+                    html += `
+                        <div class="skin-details">
+                            <i class="fas fa-store"></i>
+                            <span>${skin.shopName}</span>
+                        </div>
+                    `;
+                }
+                
+                // Цена в обычном магазине (если есть)
+                if (skin.price && skin.price.trim() !== '') {
+                    html += `
+                        <div class="skin-details">
+                            <i class="fas fa-coins"></i>
+                            <span class="skin-price">${skin.price}</span>
+                        </div>
+                    `;
+                }
+                
+                // Цена в донат магазине (если есть)
+                if (skin.donatePrice && skin.donatePrice.trim() !== '') {
+                    html += `
+                        <div class="skin-details">
+                            <i class="fas fa-gem"></i>
+                            <span class="skin-price">${skin.donatePrice}</span>
+                        </div>
+                    `;
+                }
+                
+                // Источник (если не "Все")
+                if (skin.source !== 1) {
+                    html += `
+                        <div class="skin-source source-${skin.source}">
+                            ${getSourceName(skin.source)}
+                        </div>
+                    `;
+                }
+                
+                // Дополнительная информация (если есть)
+                if (skin.additionalInfo && skin.additionalInfo.trim() !== '') {
+                    html += `
+                        <div class="toggle-info" onclick="toggleAdditionalInfo(this)">
+                            <i class="fas fa-chevron-down"></i> Описание
+                        </div>
+                        <div class="additional-info">
+                            ${skin.additionalInfo}
+                        </div>
+                    `;
+                }
+                
+                html += `</div>`; // закрываем skin-info
+                card.innerHTML = html;
+                container.appendChild(card);
+            });
+            
+            // Подсветка результатов поиска
+            if (searchQuery) {
+                highlightSearchResults(searchQuery);
+            }
+        }
+
+        // Получаем название источника по номеру
+        function getSourceName(source) {
+            switch(source) {
+                case 1: return 'Все';
+                case 2: return 'BlackPass';
+                case 3: return 'Магазин одежды';
+                case 4: return 'Донат Магазин';
+                case 5: return 'Другое';
+                default: return '';
+            }
+        }
+
+        // Переключение дополнительной информации
+        function toggleAdditionalInfo(element) {
+            const info = element.nextElementSibling;
+            const icon = element.querySelector('i');
+            
+            if (info.style.display === 'block') {
+                info.style.display = 'none';
+                icon.className = 'fas fa-chevron-down';
+                element.innerHTML = `<i class="fas fa-chevron-down"></i> Описание`;
+            } else {
+                info.style.display = 'block';
+                icon.className = 'fas fa-chevron-up';
+                element.innerHTML = `<i class="fas fa-chevron-up"></i> Свернуть`;
+            }
+        }
+
+        // Подсветка результатов поиска
+        function highlightSearchResults(query) {
+            const cards = document.querySelectorAll('.skin-card');
+            const lowerQuery = query.toLowerCase();
+            
+            cards.forEach(card => {
+                card.classList.remove('highlighted');
+                
+                const skinName = card.querySelector('.skin-name').textContent.toLowerCase();
+                const skinId = card.querySelector('.skin-id').textContent.toLowerCase();
+                const skinShopName = card.querySelector('.skin-details:nth-of-type(1) span')?.textContent.toLowerCase() || '';
+                
+                if (skinName.includes(lowerQuery) || 
+                    skinId.includes(lowerQuery) || 
+                    skinShopName.includes(lowerQuery)) {
+                    card.classList.add('highlighted');
+                    
+                    // Прокручиваем к первому найденному элементу
+                    if (!document.querySelector('.highlighted:first-of-type')) {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }
+            });
+        }
+
+        // Фильтрация скинов
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const searchQuery = document.getElementById('skin-search').value.trim();
+                renderSkins(this.dataset.filter, searchQuery);
+            });
+        });
+
+        // Поиск скинов
+        document.getElementById('skin-search').addEventListener('input', function() {
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            const searchQuery = this.value.trim();
+            renderSkins(activeFilter, searchQuery);
+        });
+
+        // Поиск по кнопке
+        document.getElementById('search-btn').addEventListener('click', function() {
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            const searchQuery = document.getElementById('skin-search').value.trim();
+            renderSkins(activeFilter, searchQuery);
+        });
+
+        // Модальное окно для увеличения изображений
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        const closeBtn = document.querySelector(".close");
+
+        // Обработчики для всех изображений скинов
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('skin-img')) {
+                modal.style.display = "block";
+                modalImg.src = e.target.src;
+                document.body.style.overflow = "hidden";
+            }
+        });
+
+        // Закрытие модального окна
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+
+        // Закрытие при клике вне изображения
+        modal.onclick = function(e) {
+            if (e.target === modal) {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        }
+
+        // Закрытие по ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape" && modal.style.display === "block") {
+                modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        });
+
+        // Создаем частицы для фона
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = window.innerWidth < 768 ? 15 : 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                const duration = Math.random() * 20 + 10;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${Math.random() * 5}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Устанавливаем имя пользователя из URL
+            const username = getUsernameFromURL();
+            if(username) {
+                document.getElementById('username-display').textContent = username;
+                document.getElementById('user-avatar').textContent = username.charAt(0).toUpperCase();
+            }
+            
+            // Сразу рендерим все скины
+            renderSkins('1');
+                    
+            // Обработка параметров URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('search');
+            
+            if (searchQuery) {
+                document.getElementById('skin-search').value = searchQuery;
+                renderSkins('1', searchQuery);
+            }
+        });
+    </script>
+</body>
+</html>

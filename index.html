@@ -516,13 +516,6 @@
             }
         }
 
-        // Выход из системы
-        document.getElementById('logout-btn').addEventListener('click', function() {
-            showLoader();
-            setTimeout(() => {
-                window.location.href = 'login.html';
-            }, 500);
-        });
 
         // Поиск
         document.getElementById('search-btn').addEventListener('click', performSearch);

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список АЗС</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #121218;
+            --bg-card: #1E1E2A;
+            --bg-hover: #2A2A3A;
+            --accent-blue: #00C2FF;
+            --accent-green: #27C93F;
+            --accent-yellow: #FFC107;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0C0;
+            --border-light: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Шапка */
+        .header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 30px;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+        }
+
+        .header-icon {
+            color: var(--accent-blue);
+        }
+
+        /* Таблица */
+        .table-container {
+            background: var(--bg-card);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            padding: 16px 20px;
+            text-align: left;
+            background: rgba(30, 30, 42, 0.9);
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        .table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 15px;
+            vertical-align: top;
+        }
+
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table tr:hover td {
+            background: var(--bg-hover);
+        }
+
+        .id-cell {
+            color: var(--text-secondary);
+            font-family: monospace;
+        }
+
+        .location-cell {
+            font-weight: 500;
+        }
+
+        .business-cell {
+            color: var(--accent-blue);
+        }
+
+        .attached-cell {
+            color: var(--accent-green);
+        }
+
+        .description {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+            font-style: italic;
+            display: block;
+        }
+
+        .highlight {
+            color: var(--accent-yellow);
+        }
+
+        /* Подвал */
+        .footer {
+            padding: 20px 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            border-top: 1px solid var(--border-light);
+            margin-top: auto;
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .table th, .table td {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+            
+            .header-title {
+                font-size: 20px;
+            }
+            
+            .description {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app-container {
+                padding: 0 15px;
+            }
+            
+            .table th, .table td {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+            
+            .header-title {
+                font-size: 18px;
+            }
+            
+            .description {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <h1 class="header-title">
+                <i class="fas fa-gas-pump header-icon"></i>
+                <span>Список АЗС</span>
+            </h1>
+        </header>
+        
+        <main>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Месторасположение</th>
+                            <th>Наименование бизнеса</th>
+                            <th>Привязан к бизнесу</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gas-stations">
+                        <!-- Данные будут загружены здесь -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>© 2023 Система учета АЗС. Все права защищены.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gasStations = [
+                {
+                    id: 0, 
+                    location: "г.Южный", 
+                    business: "АЗС (0)", 
+                    attached: "Магазин 24/7 (39)",
+                    description: ""
+                },
+                {
+                    id: 1, 
+                    location: "г. Арзамас", 
+                    business: "АЗС (1)", 
+                    attached: "Магазин 24/7 (22)",
+                    description: "<span class='highlight'>Автосалон низкого класса</span>"
+                },
+                {
+                    id: 2, 
+                    location: "пгт. Батырево", 
+                    business: "АЗС (2)", 
+                    attached: "Магазин 24/7 (16)",
+                    description: "<span class='highlight'>Охота</span>"
+                },
+                {
+                    id: 3, 
+                    location: "пгт. Корякино", 
+                    business: "АЗС (3)", 
+                    attached: "Магазин 24/7 (25)",
+                    description: "<span class='highlight'>д. Корякино</span>"
+                },
+                {
+                    id: 4, 
+                    location: "пгт. Батырево", 
+                    business: "АЗС (4)", 
+                    attached: "Магазин 24/7 (26)",
+                    description: "<span class='highlight'>Кладоискатели</span>"
+                },
+                {
+                    id: 5, 
+                    location: "п. Егоровка", 
+                    business: "АЗС (5)", 
+                    attached: "Магазин 24/7 (36)",
+                    description: ""
+                },
+                {
+                    id: 6, 
+                    location: "г. Лыткарино", 
+                    business: "АЗС (6)", 
+                    attached: "Магазин 24/7 (64)",
+                    description: ""
+                },
+                {
+                    id: 7, 
+                    location: "пгт. Батырево", 
+                    business: "АЗС (7)", 
+                    attached: "Магазин 24/7 (40)",
+                    description: "<span class='highlight'> Над казино</span>"
+                },
+                {
+                    id: 8, 
+                    location: "г. Арзамас", 
+                    business: "АЗС (8)", 
+                    attached: "Водная АЗС",
+                    description: ""
+                },
+                {
+                    id: 9, 
+                    location: "г. Нижегородск", 
+                    business: "АЗС (9)", 
+                    attached: "Магазин 24/7 (111)",
+                    description: ""
+                }
+            ];
+
+            const tableBody = document.getElementById('gas-stations');
+            
+            gasStations.forEach(station => {
+                const row = document.createElement('tr');
+                row.classList.add('fade-in');
+                
+                row.innerHTML = `
+                    <td class="id-cell">ID ${station.id}</td>
+                    <td class="location-cell">
+                        ${station.location}
+                        ${station.description ? `<span class="description">${station.description}</span>` : ''}
+                    </td>
+                    <td class="business-cell">${station.business}</td>
+                    <td class="attached-cell">${station.attached}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        });
+    </script>
+</body>
+</html>

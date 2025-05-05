@@ -949,6 +949,108 @@
         // Инициализация
         getCurrentIP();
         updateHistory();
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Радиус Земли в км
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c; // Расстояние в километрах
+        }
+
+        // Обновление сравнения IP с расчетом расстояний
+        function updateComparison(results) {
+            comparisonContainer.innerHTML = '';
+            
+            // Рассчитываем расстояния между всеми точками
+            const distances = [];
+            for (let i = 0; i < results.length; i++) {
+                for (let j = i + 1; j < results.length; j++) {
+                    const ip1 = results[i];
+                    const ip2 = results[j];
+                    
+                    if (ip1.lat && ip1.lon && ip2.lat && ip2.lon) {
+                        const distance = calculateDistance(
+                            parseFloat(ip1.lat),
+                            parseFloat(ip1.lon),
+                            parseFloat(ip2.lat),
+                            parseFloat(ip2.lon)
+                        );
+                        
+                        distances.push({
+                            ip1: ip1.ip,
+                            ip2: ip2.ip,
+                            distance: distance.toFixed(2)
+                        });
+                    }
+                }
+            }
+            
+            // Добавляем блок с расстояниями, если есть что показывать
+            if (distances.length > 0) {
+                const distanceItem = document.createElement('div');
+                distanceItem.className = 'ip-comparison-item';
+                distanceItem.style.gridColumn = '1 / -1';
+                
+                let distanceHTML = '<div class="ip-comparison-header"><div class="ip-comparison-title">Расстояния между IP</div></div>';
+                distanceHTML += '<div class="ip-comparison-content">';
+                
+                distances.forEach(dist => {
+                    distanceHTML += `
+                        <div class="ip-comparison-row">
+                            <span class="ip-comparison-label">${dist.ip1} ↔ ${dist.ip2}:</span>
+                            <span>${dist.distance} км</span>
+                        </div>
+                    `;
+                });
+                
+                distanceHTML += '</div>';
+                distanceItem.innerHTML = distanceHTML;
+                comparisonContainer.appendChild(distanceItem);
+            }
+            
+            // Добавляем информацию по каждому IP
+            results.forEach(data => {
+                const item = document.createElement('div');
+                item.className = 'ip-comparison-item';
+                item.innerHTML = `
+                    <div class="ip-comparison-header">
+                        <div class="ip-comparison-title">${data.ip}</div>
+                        <span class="status-badge ${getStatusClass(data)}">${getStatusText(data)}</span>
+                    </div>
+                    <div class="ip-comparison-content">
+                        <div class="ip-comparison-row">
+                            <span class="ip-comparison-label">Страна:</span>
+                            <span>${data.country || 'Неизвестно'} ${data.emoji || ''}</span>
+                        </div>
+                        <div class="ip-comparison-row">
+                            <span class="ip-comparison-label">Город:</span>
+                            <span>${data.city || 'Неизвестно'}</span>
+                        </div>
+                        <div class="ip-comparison-row">
+                            <span class="ip-comparison-label">Координаты:</span>
+                            <span>${data.lat ? `${data.lat}, ${data.lon}` : 'Неизвестно'}</span>
+                        </div>
+                        <div class="ip-comparison-row">
+                            <span class="ip-comparison-label">Провайдер:</span>
+                            <span>${data.asn?.name || data.name_org || 'Неизвестно'}</span>
+                        </div>
+                        <div class="ip-comparison-row">
+                            <span class="ip-comparison-label">Тип:</span>
+                            <span>${data.type || 'Неизвестно'}</span>
+                        </div>
+                        <div class="ip-comparison-row">
+                            <span class="ip-comparison-label">VPN/Прокси:</span>
+                            <span>${data.proxy || data.vpn ? 'Да' : 'Нет'}</span>
+                        </div>
+                    </div>
+                `;
+                comparisonContainer.appendChild(item);
+            });
+        }
     </script>
 </body>
 </html>

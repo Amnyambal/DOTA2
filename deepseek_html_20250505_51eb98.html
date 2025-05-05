@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkinWiki | Скины</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #121218;
+            --bg-card: #1E1E2A;
+            --bg-hover: #2A2A3A;
+            --accent-primary: #00C2FF;
+            --accent-secondary: #7B61FF;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0C0;
+            --text-tertiary: #6A6A8A;
+            --border-light: rgba(255, 255, 255, 0.08);
+            --border-dark: rgba(0, 0, 0, 0.2);
+            --price: #FFD700;
+            --source-blackpass: #a335ee;
+            --source-shop: #4c8bf5;
+            --source-donate: #ff8000;
+            --source-other: #b0b0b0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            min-height: 100vh;
+        }
+
+        .app-header {
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            color: var(--accent-primary);
+            font-size: 20px;
+        }
+
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform var(--transition-fast);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: color var(--transition-fast);
+        }
+
+        .logout-btn:hover {
+            color: var(--accent-primary);
+        }
+
+        .main-content {
+            padding: 24px;
+            max-width: 1440px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 16px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .page-title-icon {
+            color: var(--accent-primary);
+        }
+
+        .actions-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background: #00B0E6;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent-primary);
+        }
+
+        .btn-icon {
+            padding: 8px;
+            border-radius: 6px;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-icon:hover {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .search-filter-container {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-direction: column;
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all var(--transition-fast);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(0, 194, 255, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tag {
+            padding: 8px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-tag:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .filter-tag.active {
+            background: rgba(0, 194, 255, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .skins-grid-container {
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .skins-grid-wrapper {
+            width: 100%;
+            max-height: calc(100vh - 300px);
+            overflow-y: auto;
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .skin-card {
+            background: var(--bg-dark);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all var(--transition-fast);
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .skin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-primary);
+        }
+
+        .skin-img-container {
+            width: 100%;
+            height: 180px;
+            position: relative;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .skin-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-normal);
+        }
+
+        .skin-img.loading {
+            opacity: 0;
+        }
+
+        .skin-img.loaded {
+            opacity: 1;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .no-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-tertiary);
+            font-size: 14px;
+        }
+
+        .skin-info {
+            padding: 14px;
+        }
+
+        .skin-name {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .skin-id {
+            font-size: 13px;
+            color: var(--accent-primary);
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .skin-details {
+            font-size: 13px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+        }
+
+        .skin-details i {
+            color: var(--accent-primary);
+            width: 16px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .skin-price {
+            color: var(--price);
+            font-weight: 500;
+        }
+
+        .skin-source {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 8px;
+            color: white;
+        }
+
+        .source-blackpass { background-color: var(--source-blackpass); }
+        .source-shop { background-color: var(--source-shop); }
+        .source-donate { background-color: var(--source-donate); }
+        .source-other { background-color: var(--source-other); color: #333; }
+
+        .additional-info {
+            display: none;
+            padding: 10px;
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            font-size: 13px;
+            border-left: 3px solid var(--accent-primary);
+            color: var(--text-secondary);
+        }
+
+        .toggle-info {
+            color: var(--accent-primary);
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color var(--transition-fast);
+        }
+
+        .toggle-info:hover {
+            color: var(--text-primary);
+        }
+
+        .toggle-info i {
+            font-size: 10px;
+            transition: transform var(--transition-fast);
+        }
+
+        .toggle-info.active i {
+            transform: rotate(180deg);
+        }
+
+        .loading-indicator {
+            padding: 20px;
+            text-align: center;
+            color: var(--text-tertiary);
+            display: none;
+        }
+
+        .loading-indicator.visible {
+            display: block;
+        }
+
+        .loading-spinner {
+            border: 2px solid var(--text-tertiary);
+            border-top: 2px solid var(--accent-primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        .highlighted {
+            animation: pulse 2s infinite;
+            border: 2px solid var(--accent-primary);
+        }
+
+        .app-footer {
+            padding: 16px 24px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-tertiary);
+            border-top: 1px solid var(--border-light);
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            display: block;
+            margin: auto;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--accent-primary);
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0, 194, 255, 0.5);
+            animation: zoomIn 0.3s;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: var(--accent-primary);
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close:hover {
+            color: var(--text-primary);
+            transform: rotate(90deg);
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: translate(-50%, -50%) scale(0.9); }
+            to { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 194, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 194, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 194, 255, 0); }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .skins-grid-wrapper {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-header {
+                padding: 0 16px;
+            }
+            
+            .main-content {
+                padding: 16px;
+            }
+            
+            .toolbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            
+            .actions-group {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .skins-grid-wrapper {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 12px;
+            }
+            
+            .skin-img-container {
+                height: 150px;
+            }
+            
+            .modal-content {
+                max-width: 95%;
+                max-height: 80%;
+            }
+
+            .close {
+                font-size: 30px;
+                top: 15px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 20px;
+            }
+            
+            .filter-tag {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            
+            .btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+            
+            .skins-grid-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
+            .skin-img-container {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <a href="index.html?user=Амрам" class="logo">
+                <i class="fas fa-database logo-icon"></i>
+                <span>SkinWiki</span>
+            </a>
+            
+            <div class="user-nav">
+                <span id="username-display">Лямбля</span>
+                <div class="user-avatar" id="user-avatar">А</div>
+                <button class="logout-btn" id="logout-btn">Выйти</button>
+            </div>
+        </header>
+        
+        <main class="main-content">
+            <div class="toolbar">
+                <h1 class="page-title">
+                    <i class="fas fa-user-astronaut page-title-icon"></i>
+                    <span>Скины</span>
+                </h1>
+                
+                <div class="actions-group">
+                    <a href="index.html?user=Амрам" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        Назад
+                    </a>
+                </div>
+            </div>
+            
+            <div class="search-filter-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Поиск по ID, названию или названию в магазине..." id="skin-search">
+                </div>
+                
+                <div class="filter-group" id="filter-group">
+                    <div class="filter-tag active" data-filter="all">
+                        <span>Все</span>
+                    </div>
+                    <div class="filter-tag" data-filter="blackpass">
+                        <span>BlackPass</span>
+                    </div>
+                    <div class="filter-tag" data-filter="shop">
+                        <span>Магазин одежды</span>
+                    </div>
+                    <div class="filter-tag" data-filter="donate">
+                        <span>Донат Магазин</span>
+                    </div>
+                    <div class="filter-tag" data-filter="other">
+                        <span>Другое</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="skins-grid-container">
+                <div class="skins-grid-wrapper" id="skins-container">
+                    <!-- Скины будут загружены через JavaScript -->
+                </div>
+                <div class="loading-indicator" id="loading-indicator">
+                    <div class="loading-spinner"></div>
+                    <p>Загрузка скинов...</p>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="app-footer">
+            <p>ТигрЛевЛямбля</p>
+        </footer>
+    </div>
+
+    <!-- Модальное окно для увеличения фото -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        class SkinsApp {
+            constructor() {
+                this.allSkins = [];
+                this.displayedSkins = [];
+                this.filteredSkins = [];
+                this.currentFilters = {
+                    type: 'all',
+                    search: ''
+                };
+                this.batchSize = 20; // Количество скинов для загрузки за один раз
+                this.currentBatch = 0;
+                this.isLoading = false;
+                this.hasMoreData = true;
+                this.intersectionObserver = null;
+                this.init();
+            }
+            
+            init() {
+                this.initElements();
+                this.initEvents();
+                this.initIntersectionObserver();
+                this.loadInitialData();
+                this.updateUI();
+            }
+            
+            initElements() {
+                this.elements = {
+                    searchInput: document.getElementById('skin-search'),
+                    filterTags: document.querySelectorAll('#filter-group .filter-tag'),
+                    skinsContainer: document.getElementById('skins-container'),
+                    loadingIndicator: document.getElementById('loading-indicator'),
+                    userAvatar: document.getElementById('user-avatar'),
+                    usernameDisplay: document.getElementById('username-display'),
+                    logoutBtn: document.getElementById('logout-btn'),
+                    modal: document.getElementById('imageModal'),
+                    modalImg: document.getElementById('modalImage'),
+                    closeBtn: document.querySelector('.close')
+                };
+            }
+            
+            initEvents() {
+                // Поиск
+                this.elements.searchInput.addEventListener('input', () => {
+                    this.currentFilters.search = this.elements.searchInput.value.trim();
+                    this.resetAndFilterData();
+                });
+                
+                // Фильтры
+                this.elements.filterTags.forEach(tag => {
+                    tag.addEventListener('click', () => {
+                        const filter = tag.dataset.filter;
+                        this.currentFilters.type = filter;
+                        this.elements.filterTags.forEach(t => t.classList.remove('active'));
+                        tag.classList.add('active');
+                        this.resetAndFilterData();
+                    });
+                });
+                
+                // Выход
+                this.elements.logoutBtn.addEventListener('click', () => {
+                    window.location.href = 'login.html';
+                });
+                
+                // Модальное окно
+                this.elements.closeBtn.onclick = () => this.closeModal();
+                this.elements.modal.onclick = (e) => {
+                    if (e.target === this.elements.modal) this.closeModal();
+                };
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === "Escape" && this.elements.modal.style.display === "block") {
+                        this.closeModal();
+                    }
+                });
+            }
+            
+            initIntersectionObserver() {
+                // Наблюдатель для ленивой загрузки изображений и подгрузки скинов
+                this.intersectionObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            if (img.dataset.src) {
+                                img.src = img.dataset.src;
+                                img.classList.remove('loading');
+                                img.classList.add('loaded');
+                                img.removeAttribute('data-src');
+                                this.intersectionObserver.unobserve(img);
+                            }
+                            
+                            // Если это последний элемент, загружаем следующую партию скинов
+                            if (img === this.lastVisibleElement && this.hasMoreData && !this.isLoading) {
+                                this.loadNextBatch();
+                            }
+                        }
+                    });
+                }, {
+                    rootMargin: '200px',
+                    threshold: 0.1
+                });
+            }
+            
+            loadInitialData() {
+                // Здесь вы вставите ваш массив со скинами
+                this.allSkins = [
+                    // Ваши данные о скинах
+                    { 
+                        id: 2, 
+                        name: "Рикардо Милос", 
+                        shopName: "РИКАРДО МИЛОС флексер", 
+                        price: "", 
+                        donatePrice: "2.500 Black Coins(BC)", 
+                        image: "skini/Рикардо Милос (2).jpg", 
+                        source: "donate",
+                        additionalInfo: ""
+                    },
+                    // Остальные скины...
+                ];
+                
+                this.resetAndFilterData();
+            }
+            
+            resetAndFilterData() {
+                this.currentBatch = 0;
+                this.displayedSkins = [];
+                this.hasMoreData = true;
+                this.filterData();
+            }
+            
+            filterData() {
+                // Фильтрация по типу
+                this.filteredSkins = this.allSkins.filter(skin => {
+                    if (this.currentFilters.type !== 'all' && skin.source !== this.currentFilters.type) {
+                        return false;
+                    }
+                    
+                    // Фильтрация по поиску
+                    if (this.currentFilters.search) {
+                        const query = this.currentFilters.search.toLowerCase();
+                        const searchFields = [
+                            skin.name?.toLowerCase() || '',
+                            skin.id.toString(),
+                            skin.shopName?.toLowerCase() || ''
+                        ];
+                        
+                        if (!searchFields.some(field => field.includes(query))) {
+                            return false;
+                        }
+                    }
+                    
+                    return true;
+                });
+                
+                // Фильтруем пустые скины (без имени)
+                this.filteredSkins = this.filteredSkins.filter(skin => skin.name && skin.name.trim() !== '');
+                
+                this.loadNextBatch();
+            }
+            
+            loadNextBatch() {
+                if (this.isLoading || !this.hasMoreData) return;
+                
+                this.isLoading = true;
+                this.elements.loadingIndicator.classList.add('visible');
+                
+                // Имитация задержки сети (можно убрать в продакшене)
+                setTimeout(() => {
+                    const start = this.currentBatch * this.batchSize;
+                    const end = start + this.batchSize;
+                    const batch = this.filteredSkins.slice(start, end);
+                    
+                    this.displayedSkins = [...this.displayedSkins, ...batch];
+                    this.currentBatch++;
+                    
+                    this.hasMoreData = end < this.filteredSkins.length;
+                    this.renderSkins(batch);
+                    
+                    this.isLoading = false;
+                    this.elements.loadingIndicator.classList.remove('visible');
+                }, 300);
+            }
+            
+            renderSkins(batch) {
+                if (this.currentBatch === 1) {
+                    this.elements.skinsContainer.innerHTML = '';
+                }
+                
+                batch.forEach(skin => {
+                    const card = document.createElement('div');
+                    card.className = 'skin-card';
+                    
+                    // Изображение с ленивой загрузкой
+                    const imgHtml = skin.image ? 
+                        `<img src="placeholder.jpg" data-src="${skin.image}" alt="${skin.name}" class="skin-img loading">` : 
+                        `<div class="no-image">Нет изображения</div>`;
+                    
+                    // Основная информация
+                    let html = `
+                        <div class="skin-img-container">
+                            ${imgHtml}
+                        </div>
+                        <div class="skin-info">
+                            <h3 class="skin-name" title="${skin.name}">${skin.name}</h3>
+                            <div class="skin-id">ID: ${skin.id}</div>
+                    `;
+                    
+                    // Название в магазине
+                    if (skin.shopName && skin.shopName.trim() !== '') {
+                        html += `
+                            <div class="skin-details">
+                                <i class="fas fa-store"></i>
+                                <span title="${skin.shopName}">${skin.shopName}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    // Цена в обычном магазине
+                    if (skin.price && skin.price.trim() !== '') {
+                        html += `
+                            <div class="skin-details">
+                                <i class="fas fa-coins"></i>
+                                <span class="skin-price">${skin.price}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    // Цена в донат магазине
+                    if (skin.donatePrice && skin.donatePrice.trim() !== '') {
+                        html += `
+                            <div class="skin-details">
+                                <i class="fas fa-gem"></i>
+                                <span class="skin-price">${skin.donatePrice}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    // Источник
+                    if (skin.source) {
+                        html += `
+                            <div class="skin-source source-${skin.source}">
+                                ${this.getSourceName(skin.source)}
+                            </div>
+                        `;
+                    }
+                    
+                    // Дополнительная информация
+                    if (skin.additionalInfo && skin.additionalInfo.trim() !== '') {
+                        html += `
+                            <div class="toggle-info" onclick="skinsApp.toggleAdditionalInfo(this)">
+                                <i class="fas fa-chevron-down"></i> Описание
+                            </div>
+                            <div class="additional-info">
+                                ${skin.additionalInfo}
+                            </div>
+                        `;
+                    }
+                    
+                    html += `</div>`; // закрываем skin-info
+                    card.innerHTML = html;
+                    
+                    // Добавляем обработчик для модального окна
+                    const imgContainer = card.querySelector('.skin-img-container');
+                    if (imgContainer) {
+                        imgContainer.addEventListener('click', () => {
+                            if (skin.image) {
+                                this.openModal(skin.image);
+                            }
+                        });
+                    }
+                    
+                    this.elements.skinsContainer.appendChild(card);
+                    
+                    // Наблюдаем за изображениями для ленивой загрузки
+                    const img = card.querySelector('img');
+                    if (img) {
+                        this.intersectionObserver.observe(img);
+                    }
+                });
+                
+                // Обновляем последний видимый элемент для подгрузки
+                this.updateLastVisibleElement();
+                
+                // Подсветка результатов поиска
+                if (this.currentFilters.search) {
+                    this.highlightSearchResults(this.currentFilters.search);
+                }
+            }
+            
+            updateLastVisibleElement() {
+                const cards = this.elements.skinsContainer.querySelectorAll('.skin-card');
+                if (cards.length > 0) {
+                    this.lastVisibleElement = cards[cards.length - 1];
+                    this.intersectionObserver.observe(this.lastVisibleElement);
+                }
+            }
+            
+            getSourceName(source) {
+                switch(source) {
+                    case 'blackpass': return 'BlackPass';
+                    case 'shop': return 'Магазин одежды';
+                    case 'donate': return 'Донат Магазин';
+                    case 'other': return 'Другое';
+                    default: return '';
+                }
+            }
+            
+            toggleAdditionalInfo(element) {
+                const info = element.nextElementSibling;
+                const icon = element.querySelector('i');
+                
+                if (info.style.display === 'block') {
+                    info.style.display = 'none';
+                    element.classList.remove('active');
+                } else {
+                    info.style.display = 'block';
+                    element.classList.add('active');
+                }
+            }
+            
+            highlightSearchResults(query) {
+                const cards = this.elements.skinsContainer.querySelectorAll('.skin-card');
+                const lowerQuery = query.toLowerCase();
+                
+                cards.forEach(card => {
+                    card.classList.remove('highlighted');
+                    
+                    const skinName = card.querySelector('.skin-name').textContent.toLowerCase();
+                    const skinId = card.querySelector('.skin-id').textContent.toLowerCase();
+                    const skinShopName = card.querySelector('.skin-details:nth-of-type(1) span')?.textContent.toLowerCase() || '';
+                    
+                    if (skinName.includes(lowerQuery) || 
+                        skinId.includes(lowerQuery) || 
+                        skinShopName.includes(lowerQuery)) {
+                        card.classList.add('highlighted');
+                    }
+                });
+            }
+            
+            openModal(imgSrc) {
+                this.elements.modalImg.src = imgSrc;
+                this.elements.modal.style.display = "block";
+                document.body.style.overflow = "hidden";
+            }
+            
+            closeModal() {
+                this.elements.modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+            
+            updateUI() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const username = urlParams.get('user');
+                
+                if (username) {
+                    this.elements.usernameDisplay.textContent = username;
+                    this.elements.userAvatar.textContent = username.charAt(0).toUpperCase();
+                }
+                
+                const searchQuery = urlParams.get('search');
+                if (searchQuery) {
+                    this.elements.searchInput.value = searchQuery;
+                    this.currentFilters.search = searchQuery;
+                    this.filterData();
+                }
+            }
+        }
+        
+        // Инициализация приложения
+        document.addEventListener('DOMContentLoaded', () => {
+            window.skinsApp = new SkinsApp();
+        });
+    </script>
+</body>
+</html>

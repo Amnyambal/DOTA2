@@ -643,7 +643,7 @@
                     <div class="filter-tag active" data-filter="all">
                         <span>Все</span>
                     </div>
-                    <div class="filter-tag" data-filter="blackpass">
+                    <div class="filter-tag" data-filter="bp">
                         <span>BlackPass</span>
                     </div>
                     <div class="filter-tag" data-filter="shop">
@@ -652,7 +652,7 @@
                     <div class="filter-tag" data-filter="donate">
                         <span>Донат Магазин</span>
                     </div>
-                    <div class="filter-tag" data-filter="other">
+                    <div class="filter-tag" data-filter="all">
                         <span>Другое</span>
                     </div>
                 </div>
@@ -690,7 +690,7 @@
                     type: 'all',
                     search: ''
                 };
-                this.batchSize = 20; // Количество скинов для загрузки за один раз
+                this.batchSize = 10; // Количество скинов для загрузки за один раз
                 this.currentBatch = 0;
                 this.isLoading = false;
                 this.hasMoreData = true;

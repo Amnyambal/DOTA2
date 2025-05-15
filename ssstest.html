@@ -1,0 +1,4312 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkinWiki - Скины</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #121218;
+            --bg-card: #1E1E2A;
+            --bg-hover: #2A2A3A;
+            --accent-primary: #00C2FF;
+            --accent-secondary: #7B61FF;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0C0;
+            --text-tertiary: #6A6A8A;
+            --border-light: rgba(255, 255, 255, 0.08);
+            --border-dark: rgba(0, 0, 0, 0.2);
+            --price: #FFD700;
+            --source-blackpass: #a335ee;
+            --source-shop: #4c8bf5;
+            --source-donate: #ff8000;
+            --source-other: #b0b0b0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.2);
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            min-height: 100vh;
+        }
+
+        .app-header {
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            color: var(--accent-primary);
+            font-size: 20px;
+        }
+
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform var(--transition-fast);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: color var(--transition-fast);
+        }
+
+        .logout-btn:hover {
+            color: var(--accent-primary);
+        }
+
+        .main-content {
+            padding: 24px;
+            max-width: 1440px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 16px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .page-title-icon {
+            color: var(--accent-primary);
+        }
+
+        .actions-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background: #00B0E6;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent-primary);
+        }
+
+        .btn-icon {
+            padding: 8px;
+            border-radius: 6px;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-icon:hover {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .search-filter-container {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-direction: column;
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all var(--transition-fast);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(0, 194, 255, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-tertiary);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tag {
+            padding: 8px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-tag:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .filter-tag.active {
+            background: rgba(0, 194, 255, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .skins-grid-container {
+            background: var(--bg-card);
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+        }
+
+        .skins-grid-wrapper {
+            width: 100%;
+            max-height: calc(100vh - 300px);
+            overflow-y: auto;
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .skin-card {
+            background: var(--bg-dark);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all var(--transition-fast);
+            border: 1px solid var(--border-light);
+            position: relative;
+        }
+
+        .skin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--accent-primary);
+        }
+
+        .skin-img-container {
+            width: 100%;
+            height: 180px;
+            position: relative;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .skin-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform var(--transition-normal);
+        }
+
+        .skin-img.loading {
+            opacity: 0;
+        }
+
+        .skin-img.loaded {
+            opacity: 1;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .no-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-tertiary);
+            font-size: 14px;
+        }
+
+        .skin-info {
+            padding: 14px;
+        }
+
+        .skin-name {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .skin-id {
+            font-size: 13px;
+            color: var(--accent-primary);
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .skin-details {
+            font-size: 13px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+        }
+
+        .skin-details i {
+            color: var(--accent-primary);
+            width: 16px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .skin-price {
+            color: var(--price);
+            font-weight: 500;
+        }
+
+        .skin-source {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .source-bp { 
+            background-color: var(--source-blackpass);
+            box-shadow: 0 2px 4px rgba(163, 53, 238, 0.3);
+        }
+        .source-shop { 
+            background-color: var(--source-shop);
+            box-shadow: 0 2px 4px rgba(76, 139, 245, 0.3);
+        }
+        .source-don { 
+            background-color: var(--source-donate);
+            box-shadow: 0 2px 4px rgba(255, 128, 0, 0.3);
+        }
+        .source-other { 
+            background-color: var(--source-other);
+            color: #333;
+            box-shadow: 0 2px 4px rgba(176, 176, 176, 0.3);
+        }
+
+        .additional-info {
+            display: none;
+            padding: 10px;
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            font-size: 13px;
+            border-left: 3px solid var(--accent-primary);
+            color: var(--text-secondary);
+        }
+
+        .toggle-info {
+            color: var(--accent-primary);
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color var(--transition-fast);
+        }
+
+        .toggle-info:hover {
+            color: var(--text-primary);
+        }
+
+        .toggle-info i {
+            font-size: 10px;
+            transition: transform var(--transition-fast);
+        }
+
+        .toggle-info.active i {
+            transform: rotate(180deg);
+        }
+
+        .loading-indicator {
+            padding: 20px;
+            text-align: center;
+            color: var(--text-tertiary);
+            display: none;
+        }
+
+        .loading-indicator.visible {
+            display: block;
+        }
+
+        .loading-spinner {
+            border: 2px solid var(--text-tertiary);
+            border-top: 2px solid var(--accent-primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        .highlighted {
+            animation: pulse 2s infinite;
+            border: 2px solid var(--accent-primary);
+        }
+
+        .app-footer {
+            padding: 16px 24px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-tertiary);
+            border-top: 1px solid var(--border-light);
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            display: block;
+            margin: auto;
+            max-width: 90%;
+            max-height: 90%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--accent-primary);
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0, 194, 255, 0.5);
+            animation: zoomIn 0.3s;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: var(--accent-primary);
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close:hover {
+            color: var(--text-primary);
+            transform: rotate(90deg);
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: translate(-50%, -50%) scale(0.9); }
+            to { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 194, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 194, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 194, 255, 0); }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1024px) {
+            .skins-grid-wrapper {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-header {
+                padding: 0 16px;
+            }
+            
+            .main-content {
+                padding: 16px;
+            }
+            
+            .toolbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            
+            .actions-group {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .skins-grid-wrapper {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 12px;
+            }
+            
+            .skin-img-container {
+                height: 150px;
+            }
+            
+            .modal-content {
+                max-width: 95%;
+                max-height: 80%;
+            }
+
+            .close {
+                font-size: 30px;
+                top: 15px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 20px;
+            }
+            
+            .filter-tag {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+            
+            .btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+            
+            .skins-grid-wrapper {
+                grid-template-columns: 1fr;
+            }
+            
+            .skin-img-container {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <a href="index.html?user=Амрам" class="logo">
+                <i class="fas fa-database logo-icon"></i>
+                <span>SkinWiki</span>
+            </a>
+            
+            <div class="user-nav">
+                <span id="username-display">Лямбля</span>
+                <div class="user-avatar" id="user-avatar">А</div>
+                <button class="logout-btn" id="logout-btn">Выйти</button>
+            </div>
+        </header>
+        
+        <main class="main-content">
+            <div class="toolbar">
+                <h1 class="page-title">
+                    <i class="fas fa-user-astronaut page-title-icon"></i>
+                    <span>Скины</span>
+                </h1>
+                
+                <div class="actions-group">
+                    <a href="index.html?user=Амрам" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i>
+                        Назад
+                    </a>
+                </div>
+            </div>
+            
+            <div class="search-filter-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" placeholder="Поиск по ID, названию" id="skin-search">
+                </div>
+                
+                <div class="filter-group" id="filter-group">
+                    <div class="filter-tag active" data-filter="all">
+                        <span>Все</span>
+                    </div>
+                    <div class="filter-tag" data-filter="bp">
+                        <span>BlackPass</span>
+                    </div>
+                    <div class="filter-tag" data-filter="shop">
+                        <span>Магазин одежды</span>
+                    </div>
+                    <div class="filter-tag" data-filter="don">
+                        <span>Донат Магазин</span>
+                    </div>
+                    <div class="filter-tag" data-filter="other">
+                        <span>Другое</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="skins-grid-container">
+                <div class="skins-grid-wrapper" id="skins-container">
+                    <!-- Скины будут загружены через JavaScript -->
+                </div>
+                <div class="loading-indicator" id="loading-indicator">
+                    <div class="loading-spinner"></div>
+                    <p>Загрузка скинов...</p>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="app-footer">
+            <p>SkinWiki © 2023</p>
+        </footer>
+    </div>
+
+    <!-- Модальное окно для увеличения фото -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        class SkinsApp {
+            constructor() {
+                this.allSkins = [];
+                this.displayedSkins = [];
+                this.filteredSkins = [];
+                this.currentFilters = {
+                    type: 'all',
+                    search: ''
+                };
+                this.batchSize = 10;
+                this.currentBatch = 0;
+                this.isLoading = false;
+                this.hasMoreData = true;
+                this.intersectionObserver = null;
+                this.init();
+            }
+            
+            init() {
+                this.initElements();
+                this.initEvents();
+                this.initIntersectionObserver();
+                this.loadInitialData();
+                this.updateUI();
+            }
+            
+            initElements() {
+                this.elements = {
+                    searchInput: document.getElementById('skin-search'),
+                    filterTags: document.querySelectorAll('#filter-group .filter-tag'),
+                    skinsContainer: document.getElementById('skins-container'),
+                    loadingIndicator: document.getElementById('loading-indicator'),
+                    userAvatar: document.getElementById('user-avatar'),
+                    usernameDisplay: document.getElementById('username-display'),
+                    logoutBtn: document.getElementById('logout-btn'),
+                    modal: document.getElementById('imageModal'),
+                    modalImg: document.getElementById('modalImage'),
+                    closeBtn: document.querySelector('.close')
+                };
+            }
+            
+            initEvents() {
+                // Поиск
+                this.elements.searchInput.addEventListener('input', () => {
+                    this.currentFilters.search = this.elements.searchInput.value.trim();
+                    this.resetAndFilterData();
+                });
+                
+                // Фильтры
+                this.elements.filterTags.forEach(tag => {
+                    tag.addEventListener('click', () => {
+                        const filter = tag.dataset.filter;
+                        this.currentFilters.type = filter;
+                        this.elements.filterTags.forEach(t => t.classList.remove('active'));
+                        tag.classList.add('active');
+                        this.resetAndFilterData();
+                    });
+                });
+                
+                // Модальное окно
+                this.elements.closeBtn.onclick = () => this.closeModal();
+                this.elements.modal.onclick = (e) => {
+                    if (e.target === this.elements.modal) this.closeModal();
+                };
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === "Escape" && this.elements.modal.style.display === "block") {
+                        this.closeModal();
+                    }
+                });
+                
+                // Выход
+                this.elements.logoutBtn.addEventListener('click', () => {
+                    if (confirm('Вы уверены, что хотите выйти?')) {
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+            
+            initIntersectionObserver() {
+                this.intersectionObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            if (img.dataset.src) {
+                                img.src = img.dataset.src;
+                                img.classList.remove('loading');
+                                img.classList.add('loaded');
+                                img.removeAttribute('data-src');
+                                this.intersectionObserver.unobserve(img);
+                            }
+                            
+                            // Если это последний элемент, загружаем следующую партию скинов
+                            if (img === this.lastVisibleElement && this.hasMoreData && !this.isLoading) {
+                                this.loadNextBatch();
+                            }
+                        }
+                    });
+                }, {
+                    rootMargin: '200px',
+                    threshold: 0.1
+                });
+            }
+            
+            loadInitialData() {
+                // Здесь вы вставите ваш массив скинов вручную
+                this.allSkins = [
+                   { 
+                        id: 2, 
+                        name: "Рикардо Милос", 
+                        shopName: "РИКАРДО МИЛОС флексер", 
+                        price: "", 
+                        donatePrice: "2.500 Black Coins(BC)", 
+                        image: "skini/Рикардо Милос (2).jpg", 
+                        source: "don",
+                        additionalInfo: ""
+                    },
+        { 
+            id: 3, 
+            name: "Одежда 3", 
+            shopName: "Магазин", 
+            price: "117.000", 
+            donatePrice: "", 
+            image: "skini/skin3.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 4, 
+            name: "Одежда 4", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin4.jpg", 
+            source: "all",
+            additionalInfo: "Рабочая форма ФСИН"
+        },
+        { 
+            id: 5, 
+            name: "Эрик Давидович", 
+            shopName: "ИЗВЕСТНЫЙ блогер", 
+            price: "", 
+            donatePrice: "2.500 Black Coins(BC)", 
+            image: "skini/skin5.jpg", 
+            source: "don",
+            additionalInfo: ""
+        },
+                    { 
+            id: 6, 
+            name: "Одежда 6", 
+            shopName: "", 
+            price: "60.000", 
+            donatePrice: "", 
+            image: "skini/skin6.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+                    { 
+            id: 7, 
+            name: "Одежда 7", 
+            shopName: "", 
+            price: "50.000", 
+            donatePrice: "", 
+            image: "skini/skin7.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+                    { 
+            id: 8, 
+            name: "Одежда 8", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin8.jpg", 
+            source: "all",
+            additionalInfo: "Рабочая форма работников завода"
+        },
+                    { 
+            id: 9, 
+            name: "Одежда 9", 
+            shopName: "", 
+            price: "400.000", 
+            donatePrice: "", 
+            image: "skini/skin9.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+                    { 
+            id: 10, 
+            name: "Одежда 10", 
+            shopName: "ДЕВОЧКА-КРОЛИК новогодняя", 
+            price: "", 
+            donatePrice: "5.000 Black Coins(BC)", 
+            image: "skini/skin10.jpg", 
+            source: "don",
+            additionalInfo: ""
+        },
+                    { 
+            id: 11, 
+            name: "Одежда 11", 
+            shopName: "", 
+            price: "6.000.000", 
+            donatePrice: "", 
+            image: "skini/skin11.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+                    { 
+            id: 12, 
+            name: "Одежда 12", 
+            shopName: "", 
+            price: "23.000", 
+            donatePrice: "", 
+            image: "skini/skin12.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+                    { 
+            id: 13, 
+            name: "Одежда 13", 
+            shopName: "", 
+            price: "7.500.000", 
+            donatePrice: "", 
+            image: "skini/skin13.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 14, 
+            name: "Одежда 14", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin14.jpg", 
+            source: "all",
+            additionalInfo: ""
+        },
+        { 
+            id: 15, 
+            name: "Одежда 15", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin15.jpg", 
+            source: "all",
+            additionalInfo: "Рабочая форма работников государственной организации УМВД"
+        },
+        { 
+            id: 16, 
+            name: "Одежда 16", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin16.jpg", 
+            source: "all",
+            additionalInfo: "Рабочая форма работников шахты"
+        },
+        { 
+            id: 17, 
+            name: "Одежда 17", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin17.jpg", 
+            source: "all",
+            additionalInfo: "Рабочая форма работников государственной организации Правительсво"
+        },
+        { 
+            id: 18, 
+            name: "Одежда 18", 
+            shopName: "", 
+            price: "3.700.000", 
+            donatePrice: "", 
+            image: "skini/skin18.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 19, 
+            name: "Одежда 19", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin19.jpg", 
+            source: "all",
+            additionalInfo: ""
+        },
+        { 
+            id: 20, 
+            name: "Одежда 20", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin20.jpg", 
+            source: "all",
+            additionalInfo: ""
+        },
+        { 
+            id: 21, 
+            name: "Одежда 21", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin21.jpg", 
+            source: "all",
+            additionalInfo: ""
+        },
+        { 
+            id: 22, 
+            name: "Одежда 22", 
+            shopName: "СОВЕТСКИЙ СОЛДАТ мужчина", 
+            price: "", 
+            donatePrice: "1.500 Black Coins(BC)", 
+            image: "skini/skin22.jpg", 
+            source: "don",
+            additionalInfo: ""
+        },
+        { 
+            id: 23, 
+            name: "Одежда 23", 
+            shopName: "СОВЕТСКИЙ СОЛДАТ женщина", 
+            price: "", 
+            donatePrice: "1.500 Black Coins(BC)", 
+            image: "skini/skin23.jpg", 
+            source: "don",
+            additionalInfo: ""
+        },
+        { 
+            id: 24, 
+            name: "Дед Мороз", 
+            shopName: "ДЕД МОРОЗ отечественный", 
+            price: "", 
+            donatePrice: "2.500 Black Coins(BC)", 
+            image: "skini/skin24.jpg", 
+            source: "don",
+            additionalInfo: "Вы могли получить его на одном из уровней Елки в честь Нового 2024 года, а также в донат-магазине в разделе Скины"
+        },
+        { 
+            id: 25, 
+            name: "Доминик Торетто", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin25.jpg", 
+            source: "bp",
+            additionalInfo: "Можно было получить из BLACK PASS"
+        },
+        { 
+            id: 26, 
+            name: "Одежда 26", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin26.jpg", 
+            source: "all",
+            additionalInfo: "Рабочая форма сотрудников государственного учреждения УМВД."
+        },
+        { 
+            id: 27, 
+            name: "Одежда 27", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin27.jpg", 
+            source: "all",
+            additionalInfo: ""
+        },
+        { 
+            id: 28, 
+            name: "Одежда 28", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin28.jpg", 
+            source: "all",
+            additionalInfo: "Рабочая форма 3 уровня работы Инкассатор"
+        },
+        { 
+            id: 29, 
+            name: "Одежда 28", 
+            shopName: "", 
+            price: "5.850", 
+            donatePrice: "", 
+            image: "skini/skin29.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 30, 
+            name: "Одежда 30", 
+            shopName: "", 
+            price: "14.625", 
+            donatePrice: "", 
+            image: "skini/skin30.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 31, 
+            name: "Одежда 31", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin31.jpg", 
+            source: "all",
+            additionalInfo: "Рабочая форма работников государственной организации Министерство Обороны(Армия)"
+        },
+        { 
+            id: 32, 
+            name: "Одежда 32", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin32.jpg", 
+            source: "all",
+            additionalInfo: "Рабочая форма работников государственной организации ФСИН"
+        },
+        { 
+            id: 33, 
+            name: "Сланцы", 
+            shopName: "", 
+            price: "9.750", 
+            donatePrice: "", 
+            image: "skini/skin33.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 34, 
+            name: "Дед", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin34.jpg", 
+            source: "all",
+            additionalInfo: "Рабочая форма работников на ферме - Комбайнер"
+        },
+        { 
+            id: 35, 
+            name: "Авторитет", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin35.jpg", 
+            source: "all",
+            additionalInfo: ""
+        },
+        { 
+            id: 36, 
+            name: "Сланцы №2", 
+            shopName: "", 
+            price: "15.600", 
+            donatePrice: "", 
+            image: "skini/skin36.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 37, 
+            name: "Бандит", 
+            shopName: "", 
+            price: "19.500", 
+            donatePrice: "", 
+            image: "skini/skin37.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 38, 
+            name: "Одежда 38", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin38.jpg", 
+            source: "all",
+            additionalInfo: "Рабочая форма работников государственной организации ФСИН"
+        },
+        { 
+            id: 39, 
+            name: "Велма Динкли", 
+            shopName: "БЕССТРАШНАЯ в рыжем", 
+            price: "", 
+            donatePrice: "2.500.000 ИВ", 
+            image: "skini/skin39.jpg", 
+            source: "don",
+            additionalInfo: ""
+        },
+        { 
+            id: 40, 
+            name: "Зеленый купальник", 
+            shopName: "", 
+            price: "5.850", 
+            donatePrice: "", 
+            image: "skini/skin40.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 41, 
+            name: "Белый кардиган", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin41.jpg", 
+            source: "all",
+            additionalInfo: ""
+        },
+        { 
+            id: 42, 
+            name: "Русский гопник", 
+            shopName: "", 
+            price: "7.500.000", 
+            donatePrice: "", 
+            image: "skini/skin42.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 43, 
+            name: "Гопник (Узбек)", 
+            shopName: "", 
+            price: "23.400", 
+            donatePrice: "", 
+            image: "skini/skin43.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 44, 
+            name: "Белая футболка", 
+            shopName: "", 
+            price: "29.250", 
+            donatePrice: "", 
+            image: "skini/skin44.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 45, 
+            name: "Майка в шортах", 
+            shopName: "", 
+            price: "31.200", 
+            donatePrice: "", 
+            image: "skini/skin45.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 46, 
+            name: "Бандит", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin46.jpg", 
+            source: "all",
+            additionalInfo: ""
+        },
+        { 
+            id: 47, 
+            name: "Белый свитер", 
+            shopName: "", 
+            price: "35.100", 
+            donatePrice: "", 
+            image: "skini/skin47.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+            id: 48, 
+            name: "Заключенный", 
+            shopName: "ЗАКЛЮЧЕННЫЙ мужчина", 
+            price: "", 
+            donatePrice: "1.500 Black Coins(BC)", 
+            image: "skini/skin48.jpg", 
+            source: "don",
+            additionalInfo: ""
+        },
+        { 
+            id: 49, 
+            name: "Игрок 001", 
+            shopName: "ИГРОК 001 дед", 
+            price: "", 
+            donatePrice: "1.500 Black Coins(BC)", 
+            image: "skini/skin49.jpg", 
+            source: "don",
+            additionalInfo: ""
+        },
+{ 
+            id: 50, 
+            name: "Футболист", 
+            shopName: "", 
+            price: "1.100.000", 
+            donatePrice: "", 
+            image: "skini/skin50.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+{ 
+            id: 51, 
+            name: "Адидас голубой", 
+            shopName: "", 
+            price: "4.500.000", 
+            donatePrice: "", 
+            image: "skini/skin51.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+{ 
+            id: 52, 
+            name: "Адидас розовый", 
+            shopName: "", 
+            price: "4.550.000", 
+            donatePrice: "", 
+            image: "skini/skin52.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+{ 
+            id: 53, 
+            name: "Игрок 067", 
+            shopName: "ИГРОК 067 красавица", 
+            price: "", 
+            donatePrice: "1.500 Black Coins(BC)", 
+            image: "skini/skin53.jpg", 
+            source: "don",
+            additionalInfo: ""
+        },
+{ 
+            id: 54, 
+            name: "Одежда 54", 
+            shopName: "", 
+            price: "", 
+            donatePrice: "", 
+            image: "skini/skin54.jpg", 
+            source: "all",
+            additionalInfo: "Рабочая форма работников государственной организации ФСБ"
+        },
+{ 
+            id: 55, 
+            name: "Красное платье", 
+            shopName: "", 
+            price: "9.750", 
+            donatePrice: "", 
+            image: "skini/skin55.jpg", 
+            source: "shop",
+            additionalInfo: ""
+        },
+        { 
+    id: 56, 
+    name: "Черная блузка", 
+    shopName: "", 
+    price: "117.000", 
+    donatePrice: "", 
+    image: "skini/skin56.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 57, 
+    name: "Дядя Мопс", 
+    shopName: "ИЗВЕСТНЫЙ эксперт по хатам", 
+    price: "", 
+    donatePrice: "2.500 Black Coins(BC)", 
+    image: "skini/skin57.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 58, 
+    name: "Охотник", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin58.jpg", 
+    source: "all",
+    additionalInfo: "NPC на работе \"Охота\" + рабочая форма на работе \"Охота\""
+},
+{ 
+    id: 59, 
+    name: "Охотница", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin59.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма на работе \"Охота\""
+},
+{ 
+    id: 60, 
+    name: "Бандит №3", 
+    shopName: "", 
+    price: "39.000", 
+    donatePrice: "", 
+    image: "skini/skin60.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 61, 
+    name: "ЛД МО", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin61.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма работников государственной организации \"Министерство Обороны(Армия)\""
+},
+{ 
+    id: 62, 
+    name: "Темный лорд", 
+    shopName: "ТЕМНЫЙ лорд", 
+    price: "", 
+    donatePrice: "3.600 Black Coins(BC)", 
+    image: "skini/skin62.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 63, 
+    name: "Заключенная", 
+    shopName: "ЗАКЛЮЧЕННЫЙ женщина", 
+    price: "", 
+    donatePrice: "1.500 Black Coins(BC)", 
+    image: "skini/skin63.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 64, 
+    name: "Одежда 64", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin64.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма работников государственной организации \"ГИБДД\""
+},
+{ 
+    id: 65, 
+    name: "Кровавая монашка", 
+    shopName: "ВЕДЬМА пугает по ночам", 
+    price: "", 
+    donatePrice: "2.000.000 ИВ", 
+    image: "skini/skin65.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 66, 
+    name: "Белая кофта", 
+    shopName: "", 
+    price: "42.900", 
+    donatePrice: "", 
+    image: "skini/skin66.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 67, 
+    name: "Гавайка", 
+    shopName: "", 
+    price: "42.900", 
+    donatePrice: "", 
+    image: "skini/skin67.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 68, 
+    name: "Молодой", 
+    shopName: "", 
+    price: "2.000.000", 
+    donatePrice: "", 
+    image: "skini/skin68.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 69, 
+    name: "Одежда 69", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin69.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма работников государственной организации \"Центральная Больница\""
+},
+{ 
+    id: 70, 
+    name: "Лидер ЦБ", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin70.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма работников государственной организации \"Центральная Больница\""
+},
+{ 
+    id: 71, 
+    name: "В работе", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin71.jpg", 
+    source: "all",
+    additionalInfo: ""
+},
+{ 
+    id: 72, 
+    name: "Одежда 72", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin72.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма работников государственной организации \"УМВД\""
+},
+{ 
+    id: 73, 
+    name: "Белая рубашка", 
+    shopName: "", 
+    price: "9.000.000", 
+    donatePrice: "", 
+    image: "skini/skin73.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 74, 
+    name: "Бомж в ушанке", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin74.jpg", 
+    source: "all",
+    additionalInfo: ""
+},
+{ 
+    id: 75, 
+    name: "Розовый топ", 
+    shopName: "", 
+    price: "500.000", 
+    donatePrice: "", 
+    image: "skini/skin75.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 76, 
+    name: "", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin76.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма работников государственной организации \"ГИБДД\""
+},
+{ 
+    id: 77, 
+    name: "Бомжиха", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin77.jpg", 
+    source: "all",
+    additionalInfo: ""
+},
+{ 
+    id: 78, 
+    name: "Бомж в ушанке", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin78.jpg", 
+    source: "all",
+    additionalInfo: ""
+},
+{ 
+    id: 79, 
+    name: "Бомж в куртке", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin79.jpg", 
+    source: "all",
+    additionalInfo: ""
+},
+{ 
+    id: 80, 
+    name: "Гуччи", 
+    shopName: "", 
+    price: "6.100.000", 
+    donatePrice: "", 
+    image: "skini/skin80.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 81, 
+    name: "Деловой костюм", 
+    shopName: "", 
+    price: "6.500.000", 
+    donatePrice: "", 
+    image: "skini/skin81.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 82, 
+    name: "Кардиган (М)", 
+    shopName: "", 
+    price: "6.800.000", 
+    donatePrice: "", 
+    image: "skini/skin82.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 83, 
+    name: "Бизнесмен", 
+    shopName: "", 
+    price: "6.600.000", 
+    donatePrice: "", 
+    image: "skini/skin83.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 84, 
+    name: "Аирподсы", 
+    shopName: "", 
+    price: "6.700.000", 
+    donatePrice: "", 
+    image: "skini/skin84.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 85, 
+    name: "Купальник", 
+    shopName: "", 
+    price: "40.000", 
+    donatePrice: "", 
+    image: "skini/skin85.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 86, 
+    name: "Пивозавр (М)", 
+    shopName: "ПИВОЗАВР лучшая футболка лета", 
+    price: "", 
+    donatePrice: "300 Black Coins(BC)", 
+    image: "skini/skin86.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 87, 
+    name: "Купальник пальмы", 
+    shopName: "", 
+    price: "40.000", 
+    donatePrice: "", 
+    image: "skini/skin87.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 88, 
+    name: "Дед Мороз голубой", 
+    shopName: "ДЕД МОРОЗ голубой", 
+    price: "", 
+    donatePrice: "5.000 Black Coins(BC)", 
+    image: "skini/skin88.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 89, 
+    name: "Кевин", 
+    shopName: "МАЛЬЧИК один дома", 
+    price: "", 
+    donatePrice: "5.000 Black Coins(BC)", 
+    image: "skini/skin89.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 90, 
+    name: "Заключенная в майке", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin90.jpg", 
+    source: "all",
+    additionalInfo: ""
+},
+{ 
+    id: 91, 
+    name: "Женский деловой костюм", 
+    shopName: "", 
+    price: "42.900", 
+    donatePrice: "", 
+    image: "skini/skin91.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 92, 
+    name: "Коньки (Ж)", 
+    shopName: "ДЕВУШКА на коньках", 
+    price: "", 
+    donatePrice: "5.000 Black Coins(BC)", 
+    image: "skini/skin92.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 93, 
+    name: "", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin93.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма работников государственной организации \"ФСИН\""
+},
+{ 
+    id: 94, 
+    name: "Шейх", 
+    shopName: "", 
+    price: "15.000.000", 
+    donatePrice: "", 
+    image: "skini/skin94.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 95, 
+    name: "Мексу Вещает", 
+    shopName: "МЕКСУ ВЕЩАЕТ блогер", 
+    price: "2.500.000", 
+    donatePrice: "1.000 Black Coins(BC)", 
+    image: "skini/skin95.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 96, 
+    name: "Шорты", 
+    shopName: "", 
+    price: "40.000", 
+    donatePrice: "", 
+    image: "skini/skin96.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 97, 
+    name: "Синяя майка", 
+    shopName: "", 
+    price: "40.000", 
+    donatePrice: "", 
+    image: "skini/skin97.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 98, 
+    name: "Бандит №4", 
+    shopName: "", 
+    price: "6.900.000", 
+    donatePrice: "", 
+    image: "skini/skin98.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 99, 
+    name: "Коньки (М)", 
+    shopName: "МУЖЧИНА на коньках", 
+    price: "", 
+    donatePrice: "5.000 Black Coins(BC)", 
+    image: "skini/skin99.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 100, 
+    name: "Повар", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin100.jpg", 
+    source: "all",
+    additionalInfo: ""
+},
+{ 
+    id: 101, 
+    name: "Череп", 
+    shopName: "", 
+    price: "107.250", 
+    donatePrice: "", 
+    image: "skini/skin101.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 102, 
+    name: "", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin102.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма преступной группировки \"Лыткаринская ОПГ\""
+},
+{ 
+    id: 103, 
+    name: "", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin103.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма преступной группировки \"Лыткаринская ОПГ\""
+},
+{ 
+    id: 104, 
+    name: "", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin104.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма преступной группировки \"Лыткаринская ОПГ\""
+},
+{ 
+    id: 105, 
+    name: "ЛД \"Лыткаринская ОПГ\"", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin105.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма преступной группировки \"Лыткаринская ОПГ\""
+},
+{ 
+    id: 106, 
+    name: "Эллер", 
+    shopName: "ИЗВЕСТНЫЙ блогер", 
+    price: "22.800.000", 
+    donatePrice: "2.280 Black Coins(BC)", 
+    image: "skini/skin106.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 107, 
+    name: "Модник", 
+    shopName: "", 
+    price: "980.000", 
+    donatePrice: "", 
+    image: "skini/skin107.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 108, 
+    name: "Фирменая", 
+    shopName: "ИЗВЕСТНЫЙ блогер", 
+    price: "3.000.000", 
+    donatePrice: "1.000 Black Coins(BC)", 
+    image: "skini/skin108.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 109, 
+    name: "Батори", 
+    shopName: "ИЗВЕСТНЫЙ блогер", 
+    price: "3.250.000", 
+    donatePrice: "1.625 Black Coins(BC)", 
+    image: "skini/skin109.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 110, 
+    name: "Малфой", 
+    shopName: "ИЗВЕСТНЫЙ блогер", 
+    price: "1.500.000", 
+    donatePrice: "500 Black Coins(BC)", 
+    image: "skini/skin110.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 111, 
+    name: "ЛД \"Арзамаская ОПГ\"", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin111.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма преступной группировки \"Арзамаская ОПГ\""
+},
+{ 
+    id: 112, 
+    name: "", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin112.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма преступной группировки \"Арзамаская ОПГ\""
+},
+{ 
+    id: 113, 
+    name: "", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin113.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма преступной группировки \"Арзамаская ОПГ\""
+},
+{ 
+    id: 114, 
+    name: "", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin114.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма преступной группировки \"Батыревская ОПГ\""
+},
+{ 
+    id: 115, 
+    name: "", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin115.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма преступной группировки \"Батыревская ОПГ\""
+},
+{ 
+    id: 116, 
+    name: "", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin116.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма преступной группировки \"Батыревская ОПГ\""
+},
+{ 
+    id: 117, 
+    name: "", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin117.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма преступной группировки \"Батыревская ОПГ\""
+},
+{ 
+    id: 118, 
+    name: "Конор", 
+    shopName: "", 
+    price: "10.000.000", 
+    donatePrice: "", 
+    image: "skini/skin118.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 119, 
+    name: "", 
+    shopName: "", 
+    price: "", 
+    donatePrice: "", 
+    image: "skini/skin119.jpg", 
+    source: "all",
+    additionalInfo: "Рабочая форма преступной группировки \"Батыревская ОПГ\""
+},
+{ 
+    id: 120, 
+    name: "Костюм с галстуком", 
+    shopName: "", 
+    price: "6.400.000", 
+    donatePrice: "", 
+    image: "skini/skin120.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 121, 
+    name: "Версаче", 
+    shopName: "", 
+    price: "1.500.000", 
+    donatePrice: "", 
+    image: "skini/skin121.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 122, 
+    name: "Администратор (М)", 
+    shopName: "ФИРМЕННАЯ ОДЕЖДА BLACK RUSSIA", 
+    price: "", 
+    donatePrice: "30.000 Black Coins(BC)", 
+    image: "skini/skin122.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 123, 
+    name: "Пугливый", 
+    shopName: "", 
+    price: "200.000", 
+    donatePrice: "", 
+    image: "skini/skin123.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 124, 
+    name: "Найк", 
+    shopName: "", 
+    price: "3.000.000", 
+    donatePrice: "", 
+    image: "skini/skin124.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 125, 
+    name: "Черная панама", 
+    shopName: "", 
+    price: "5.000.000", 
+    donatePrice: "", 
+    image: "skini/skin125.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 126, 
+    name: "Белая толстовка", 
+    shopName: "", 
+    price: "300.000", 
+    donatePrice: "", 
+    image: "skini/skin126.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 127, 
+    name: "Бизнесмен №2", 
+    shopName: "", 
+    price: "7.000.000", 
+    donatePrice: "", 
+    image: "skini/skin127.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 128, 
+    name: "Авторитет №2", 
+    shopName: "", 
+    price: "100.000", 
+    donatePrice: "", 
+    image: "skini/skin128.jpg", 
+    source: "shop",
+    additionalInfo: ""
+},
+{ 
+    id: 129, 
+    name: "Шляпник", 
+    shopName: "ШЛЯПНИК из Алисы", 
+    price: "", 
+    donatePrice: "2.500 Black Coins(BC)", 
+    image: "skini/skin129.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{ 
+    id: 130, 
+    name: "Санта Клаус", 
+    shopName: "САНТА КЛАУС иностранец", 
+    price: "", 
+    donatePrice: "2.500 Black Coins(BC)", 
+    image: "skini/skin130.jpg", 
+    source: "don",
+    additionalInfo: ""
+},
+{
+id: 131,
+name: "Одежда 131",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin131.jpg",
+source: "all",
+additionalInfo: ""
+},
+{
+id: 132,
+name: "Инкассатор 2",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin132.jpg",
+source: "all",
+additionalInfo: "Рабочая форма 2 уровня работы \"Инкассатор\""
+},
+{
+id: 133,
+name: "Одежда 133",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin133.jpg",
+source: "all",
+additionalInfo: ""
+},
+{
+id: 134,
+name: "Бомж",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin134.jpg",
+source: "all",
+additionalInfo: ""
+},
+{
+id: 135,
+name: "Бомжиха",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin135.jpg",
+source: "all",
+additionalInfo: ""
+},
+{
+id: 136,
+name: "Одежда 136",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin136.jpg",
+source: "all",
+additionalInfo: ""
+},
+{
+id: 137,
+name: "Одежда 137",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin137.jpg",
+source: "all",
+additionalInfo: ""
+},
+{
+id: 138,
+name: "Одежда 138",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin138.jpg",
+source: "all",
+additionalInfo: ""
+},
+{
+id: 139,
+name: "Одежда 139",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin139.jpg",
+source: "all",
+additionalInfo: ""
+},
+{
+id: 140,
+name: "Танцовщица",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin140.jpg",
+source: "all",
+additionalInfo: ""
+},
+{
+id: 141,
+name: "Одежда 141",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin141.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Правительсво\""
+},
+{
+id: 142,
+name: "Одежда 142",
+shopName: "",
+price: "48.750",
+donatePrice: "",
+image: "skini/skin142.jpg",
+source: "shop",
+additionalInfo: ""
+},
+{
+id: 143,
+name: "Одежда 143",
+shopName: "",
+price: "52.650",
+donatePrice: "",
+image: "skini/skin143.jpg",
+source: "shop",
+additionalInfo: ""
+},
+{
+id: 144,
+name: "Одежда 144",
+shopName: "",
+price: "58.500",
+donatePrice: "",
+image: "skini/skin144.jpg",
+source: "shop",
+additionalInfo: ""
+},
+{
+id: 145,
+name: "Инкассатор (Ж)",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin145.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работы \"Инкассатор\""
+},
+{
+id: 146,
+name: "Одежда 146",
+shopName: "",
+price: "6.200.000",
+donatePrice: "",
+image: "skini/skin146.jpg",
+source: "shop",
+additionalInfo: ""
+},
+{
+id: 147,
+name: "ЛД Правительсва",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin147.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Правительсво\""
+},
+{
+id: 148,
+name: "Одежда 148",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin148.jpg",
+source: "all",
+additionalInfo: "Рабочая форма преступной группировки \"ОПГ\""
+},
+{
+id: 149,
+name: "Одежда 149",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin149.jpg",
+source: "all",
+additionalInfo: ""
+},
+{
+id: 150,
+name: "Одежда 150",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin150.jpg",
+source: "all",
+additionalInfo: "Работник фсин мб"
+},
+{
+id: 151,
+name: "Одежда 151",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin151.jpg",
+source: "all",
+additionalInfo: "завод ж мб"
+},
+
+{
+id: 152,
+name: "Одежда 152",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin152.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 153,
+name: "Одежда 153",
+shopName: "",
+price: "6.300.000",
+donatePrice: "",
+image: "skini/skin153.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 154,
+name: "Одежда 154",
+shopName: "",
+price: "62.400",
+donatePrice: "",
+image: "skini/skin154.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 155,
+name: "Курьер",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin155.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работы \"Курьер\""
+},
+
+{
+id: 156,
+name: "Одежда 156",
+shopName: "",
+price: "64.350",
+donatePrice: "",
+image: "skini/skin156.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 157,
+name: "Одежда 157",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin157.jpg",
+source: "all",
+additionalInfo: "шахта ж мб"
+},
+
+{
+id: 158,
+name: "Одежда 158",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin158.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 159,
+name: "Одежда 159",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin159.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 160,
+name: "Игрок 456",
+shopName: "ИГРОК 456 победитель",
+price: "",
+donatePrice: "1.500 Black Coins(BC)",
+image: "skini/skin160.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 161,
+name: "Одежда 161",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin161.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 162,
+name: "Лионель Месси",
+shopName: "ИЗВЕСТНЫЙ футболист",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin162.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 163,
+name: "Одежда 163",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin163.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"ФСБ\""
+},
+
+{
+id: 164,
+name: "ЛД ФСБ",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin164.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"ФСБ\""
+},
+
+{
+id: 165,
+name: "Илон Маск",
+shopName: "ИЛОН МАСК гений",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin165.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 166,
+name: "Михаил Литвин",
+shopName: "ИЗВЕСТНЫЙ блогер",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin166.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 167,
+name: "Курьер",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin167.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работы \"Курьер\""
+},
+
+{
+id: 168,
+name: "Инкассатор 1",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin168.jpg",
+source: "all",
+additionalInfo: "Рабочая форма 1 уровня работы \"Инкассатор\""
+},
+
+{
+id: 169,
+name: "Одежда 169",
+shopName: "",
+price: "292.000",
+donatePrice: "",
+image: "skini/skin169.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 170,
+name: "Менеджер казино",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin170.jpg",
+source: "all",
+additionalInfo: "Рабочая форма персонала \"Казино\""
+},
+{
+id: 171,
+name: "Охранник",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin171.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 172,
+name: "Одежда 172",
+shopName: "",
+price: "1.500.000",
+donatePrice: "",
+image: "skini/skin172.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 173,
+name: "Крупье казино",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin173.jpg",
+source: "all",
+additionalInfo: "Рабочая форма персонала \"Казино\""
+},
+
+{
+id: 174,
+name: "Даня Милохин",
+shopName: "ДАНЯ МИЛОХИН тиктокер",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin174.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 175,
+name: "Крик",
+shopName: "КРИК очень страшный",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin175.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 176,
+name: "Одежда 176",
+shopName: "",
+price: "68.250",
+donatePrice: "",
+image: "skini/skin176.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 177,
+name: "Одежда 177",
+shopName: "",
+price: "130.000",
+donatePrice: "",
+image: "skini/skin177.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 178,
+name: "Одежда 178",
+shopName: "",
+price: "1.365.000",
+donatePrice: "",
+image: "skini/skin178.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 179,
+name: "Одежда 179",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin179.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Министерство Обороны(Армия)\""
+},
+
+{
+id: 180,
+name: "Одежда 180",
+shopName: "",
+price: "156.000",
+donatePrice: "",
+image: "skini/skin180.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 181,
+name: "Одежда 181",
+shopName: "",
+price: "175.500",
+donatePrice: "",
+image: "skini/skin181.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 182,
+name: "Одежда 182",
+shopName: "",
+price: "195.000",
+donatePrice: "",
+image: "skini/skin182.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 183,
+name: "Одежда 183",
+shopName: "",
+price: "214.500",
+donatePrice: "",
+image: "skini/skin183.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 184,
+name: "Одежда 184",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin184.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"СМИ\""
+},
+
+{
+id: 185,
+name: "Одежда 185",
+shopName: "",
+price: "234.000",
+donatePrice: "",
+image: "skini/skin185.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 186,
+name: "ЛД СМИ",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin186.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 187,
+name: "Одежда 187",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin187.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 188,
+name: "Одежда 188",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin188.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"СМИ\""
+},
+
+{
+id: 189,
+name: "Одежда 189",
+shopName: "",
+price: "263.000",
+donatePrice: "",
+image: "skini/skin189.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 190,
+name: "Курьер (Ж)",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin190.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работы \"Курьер\""
+},
+
+{
+id: 191,
+name: "Одежда 191",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin191.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Министерство Обороны(Армия)\""
+},
+
+{
+id: 192,
+name: "Одежда 192",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin192.jpg",
+source: "all",
+additionalInfo: "работяга Ж"
+},
+
+{
+id: 193,
+name: "Одежда 193",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin193.jpg",
+source: "all",
+additionalInfo: "Рабочая форма преступной группировки \"Батыревская ОПГ\""
+},
+
+{
+id: 194,
+name: "Одежда 194",
+shopName: "",
+price: "156.000",
+donatePrice: "",
+image: "skini/skin194.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 195,
+name: "Одежда 195",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin195.jpg",
+source: "all",
+additionalInfo: "Рабочая форма преступной группировки \"Лыткаринская ОПГ\""
+},
+
+{
+id: 196,
+name: "Одежда 196",
+shopName: "СНЕГУРОЧКА в юбке",
+price: "",
+donatePrice: "1.500 Black Coins(BC)",
+image: "skini/skin196.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 197,
+name: "Одежда 197",
+shopName: "ДЕВОЧКА-КРОЛИК обычная",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin197.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 198,
+name: "Одежда 198",
+shopName: "",
+price: "600.000",
+donatePrice: "",
+image: "skini/skin198.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 199,
+name: "Одежда 199",
+shopName: "ДЕВУШКА клоун",
+price: "",
+donatePrice: "3.600 Black Coins(BC)",
+image: "skini/skin199.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 200,
+name: "Бустер",
+shopName: "ИЗВЕСТНЫЙ стример",
+price: "",
+donatePrice: "5.000 Black Coins(BC)",
+image: "skini/skin200.jpg",
+source: "don",
+additionalInfo: ""
+},
+{
+id: 201,
+name: "Одежда 201",
+shopName: "",
+price: "200.000",
+donatePrice: "",
+image: "skini/skin201.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 202,
+name: "Джарахов",
+shopName: "ИЗВЕСТНЫЙ рэпер",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin202.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 203,
+name: "Одежда 203",
+shopName: "",
+price: "7.000.000",
+donatePrice: "",
+image: "skini/skin203.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 204,
+name: "Куплинов",
+shopName: "ИЗВЕСТНЫЙ геймер",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin204.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 205,
+name: "Одежда 205",
+shopName: "",
+price: "8.000.000",
+donatePrice: "",
+image: "skini/skin205.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 206,
+name: "Одежда 206",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin206.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 207,
+name: "Одежда 207",
+shopName: "ДЕВОЧКА клоун",
+price: "",
+donatePrice: "5.000.000 ИВ",
+image: "skini/skin207.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 208,
+name: "Одежда 208",
+shopName: "СТРАШНЫЙ друг твоих подруг",
+price: "",
+donatePrice: "3.600 Black Coins(BC)",
+image: "skini/skin208.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 209,
+name: "Шэгги Роджерс",
+shopName: "КРАСАВЧИК друг собаки",
+price: "",
+donatePrice: "2.500.000 ИВ",
+image: "skini/skin209.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 210,
+name: "Криштиано Роналдо",
+shopName: "ИЗВЕСТНЫЙ футболист",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin210.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 211,
+name: "Одежда 211",
+shopName: "",
+price: "7.000.000",
+donatePrice: "",
+image: "skini/skin211.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 212,
+name: "Одежда 212",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin212.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 213,
+name: "Одежда 213",
+shopName: "",
+price: "6.800.000",
+donatePrice: "",
+image: "skini/skin213.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 214,
+name: "Одежда 214",
+shopName: "",
+price: "4.000.000",
+donatePrice: "",
+image: "skini/skin214.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 215,
+name: "Одежда 215",
+shopName: "",
+price: "5.000.000",
+donatePrice: "",
+image: "skini/skin215.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 216,
+name: "Одежда 216",
+shopName: "",
+price: "1.755.000",
+donatePrice: "",
+image: "skini/skin216.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 217,
+name: "Одежда 217",
+shopName: "",
+price: "1.365.000",
+donatePrice: "",
+image: "skini/skin217.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 218,
+name: "Одежда 218",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin218.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 219,
+name: "Одежда 219",
+shopName: "",
+price: "975.000",
+donatePrice: "",
+image: "skini/skin219.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 220,
+name: "Одежда 220",
+shopName: "МУЖЧИНА профессор-маг",
+price: "",
+donatePrice: "2.000 Black Coins(BC)",
+image: "skini/skin220.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 221,
+name: "Одежда 221",
+shopName: "",
+price: "1.755.000",
+donatePrice: "",
+image: "skini/skin221.jpg",
+source: "shop",
+additionalInfo: ""
+},
+{
+id: 222,
+name: "Одежда 222",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin222.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 223,
+name: "Одежда 223",
+shopName: "",
+price: "2.535.000",
+donatePrice: "",
+image: "skini/skin223.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 224,
+name: "Пивозавр (Ж)",
+shopName: "ПИВОЗАВР лучшая футболка лета",
+price: "",
+donatePrice: "300 Black Coins(BC)",
+image: "skini/skin224.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 225,
+name: "Аниме-Тян",
+shopName: "АНИМЕ-ТЯН настоящий краш",
+price: "",
+donatePrice: "2.000 Black Coins(BC)",
+image: "skini/skin225.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 226,
+name: "Одежда 226",
+shopName: "",
+price: "2.535.000",
+donatePrice: "",
+image: "skini/skin226.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 227,
+name: "Одежда 227",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin227.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Правительсво\""
+},
+
+{
+id: 228,
+name: "Одежда 228",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin228.jpg",
+source: "all",
+additionalInfo: "Рабочая форма Строительной Компании"
+},
+
+{
+id: 229,
+name: "Одежда 229",
+shopName: "ИЗВЕСТНЫЙ блогер",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin229.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 230,
+name: "Одежда 230",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin230.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 231,
+name: "Одежда 231",
+shopName: "ВЕДЬМА милашка Ди",
+price: "",
+donatePrice: "1.800 Black Coins(BC)",
+image: "skini/skin231.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 232,
+name: "Дафни Блейк",
+shopName: "КРАСАВИЦА девушка парня справа",
+price: "",
+donatePrice: "300 Black Coins(BC)",
+image: "skini/skin232.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 233,
+name: "Одежда 233",
+shopName: "",
+price: "3.000.000",
+donatePrice: "",
+image: "skini/skin233.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 234,
+name: "Ким Чен Ын",
+shopName: "ГОСПОДИН Председатель",
+price: "",
+donatePrice: "5.000 Black Coins(BC)",
+image: "skini/skin234.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 235,
+name: "А4",
+shopName: "ИЗВЕСТНЫЙ блогер",
+price: "",
+donatePrice: "5.000 Black Coins(BC)",
+image: "skini/skin235.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 236,
+name: "Одежда 236",
+shopName: "БАРЫГА преступник",
+price: "",
+donatePrice: "1.000 Black Coins(BC)",
+image: "skini/skin236.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 237,
+name: "Одежда 237",
+shopName: "",
+price: "2.730.000",
+donatePrice: "",
+image: "skini/skin237.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 238,
+name: "Одежда 238",
+shopName: "",
+price: "2.925.000",
+donatePrice: "",
+image: "skini/skin238.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 239,
+name: "Одежда 239",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin239.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 240,
+name: "Одежда 240",
+shopName: "",
+price: "97.500",
+donatePrice: "",
+image: "skini/skin240.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 241,
+name: "Одежда 241",
+shopName: "",
+price: "780.000",
+donatePrice: "",
+image: "skini/skin241.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 242,
+name: "Одежда 242",
+shopName: "",
+price: "682.500",
+donatePrice: "",
+image: "skini/skin242.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 243,
+name: "Одежда 243",
+shopName: "СНЕГУРОЧКА молодежная",
+price: "",
+donatePrice: "3.000 Black Coins(BC)",
+image: "skini/skin243.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 244,
+name: "Одежда 244",
+shopName: "",
+price: "5.850.000",
+donatePrice: "",
+image: "skini/skin244.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 245,
+name: "Одежда 245",
+shopName: "СНЕГУРОЧКА внучка Деда",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin245.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 246,
+name: "Одежда 246",
+shopName: "",
+price: "1.000.000",
+donatePrice: "",
+image: "skini/skin246.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 247,
+name: "Одежда 247",
+shopName: "",
+price: "292.000",
+donatePrice: "",
+image: "skini/skin247.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 248,
+name: "Одежда 248",
+shopName: "",
+price: "975.000",
+donatePrice: "",
+image: "skini/skin248.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 249,
+name: "Владимир Владимирович Путин",
+shopName: "ГОСПОДИН Президент",
+price: "",
+donatePrice: "5.000 Black Coins(BC)",
+image: "skini/skin249.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 250,
+name: "Одежда 250",
+shopName: "",
+price: "1.267.500",
+donatePrice: "",
+image: "skini/skin250.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 251,
+name: "Одежда 251",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin251.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Xz\""
+},
+
+{
+id: 252,
+name: "Одежда 252",
+shopName: "ИГЛА преступник",
+price: "",
+donatePrice: "700 Black Coins(BC)",
+image: "skini/skin252.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 253,
+name: "Одежда 253",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin253.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Министерство Обороны(Армия)\""
+},
+
+{
+id: 254,
+name: "Одежда 254",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin254.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работы \"Пчеловод\" на ферме"
+},
+
+{
+id: 255,
+name: "Одежда 255",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin255.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работы \"Водитель комбайна\" на ферме"
+},
+
+{
+id: 256,
+name: "Одежда 256",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin256.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работы \"Xz\" на ферме"
+},
+
+{
+id: 257,
+name: "Одежда 257",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin257.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работы \"Дояр\" на ферме"
+},
+
+{
+id: 258,
+name: "Одежда 258",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin258.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работы \"Дояр\" на ферме"
+},
+
+{
+id: 259,
+name: "Одежда 259",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin259.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работы \"Сборщик урожая\" на ферме"
+},
+
+{
+id: 260,
+name: "Одежда 260",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin260.jpg",
+source: "all",
+additionalInfo: ""
+},
+{
+id: 261,
+name: "Одежда 261",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin261.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"СМИ\""
+},
+
+{
+id: 262,
+name: "Джейсон Вурхиз",
+shopName: "УБИЙЦА почти как Стетхем",
+price: "",
+donatePrice: "3.600 Black Coins(BC)",
+image: "skini/skin262.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 263,
+name: "Одежда 263",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin263.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"СМИ\""
+},
+
+{
+id: 264,
+name: "Одежда 264",
+shopName: "ЗЛОЙ клоун",
+price: "",
+donatePrice: "3.600 Black Coins(BC)",
+image: "skini/skin264.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 265,
+name: "Одежда 265",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin265.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Xz\""
+},
+
+{
+id: 266,
+name: "Скелетон",
+shopName: "СКЕЛЕТОН бывший Костя",
+price: "",
+donatePrice: "6.000 Black Coins(BC)",
+image: "skini/skin266.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 267,
+name: "Одежда 267",
+shopName: "ДЖЕЙМС БОНД герой",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin267.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 268,
+name: "Одежда 268",
+shopName: "",
+price: "1.000.000",
+donatePrice: "",
+image: "skini/skin268.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 269,
+name: "Фред Джонс",
+shopName: "КРАСАВЧИК парень девушки слева",
+price: "",
+donatePrice: "600 Black Coins(BC)",
+image: "skini/skin269.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 270,
+name: "Муханов Кирилл",
+shopName: "МУХАНОВ КИРИЛЛ мужчина",
+price: "",
+donatePrice: "15.000 Black Coins(BC)",
+image: "skini/skin270.jpg",
+source: "don",
+additionalInfo: ""
+},
+{
+id: 271,
+name: "Одежда 271",
+shopName: "",
+price: "8.000.000",
+donatePrice: "",
+image: "skini/skin271.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 272,
+name: "Одежда 272",
+shopName: "",
+price: "3.500.000",
+donatePrice: "",
+image: "skini/skin272.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 273,
+name: "Одежда 273",
+shopName: "",
+price: "8.500.000",
+donatePrice: "",
+image: "skini/skin273.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 274,
+name: "Одежда 274",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin274.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Центральная Больница\""
+},
+
+{
+id: 275,
+name: "Одежда 275",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin275.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Центральная Больница\""
+},
+
+{
+id: 276,
+name: "Одежда 276",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin276.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Центральная Больница\""
+},
+
+{
+id: 277,
+name: "Одежда 277",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin277.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"УМВД\""
+},
+
+{
+id: 278,
+name: "Одежда 278",
+shopName: "",
+price: "20.000",
+donatePrice: "",
+image: "skini/skin278.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 279,
+name: "Одежда 279",
+shopName: "",
+price: "4.000.000",
+donatePrice: "",
+image: "skini/skin279.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 280,
+name: "Одежда 280",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin280.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"УМВД\""
+},
+
+{
+id: 281,
+name: "Одежда 281",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin281.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"ГИБДД\""
+},
+
+{
+id: 282,
+name: "Одежда 282",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin282.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"ГИБДД\""
+},
+
+{
+id: 283,
+name: "Моргенштерн",
+shopName: "Известный аристократ",
+price: "",
+donatePrice: "2.500 Black Coins(BC)",
+image: "skini/skin283.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 284,
+name: "Одежда 284",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin284.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"УМВД\""
+},
+
+{
+id: 285,
+name: "Одежда 285",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin285.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"УМВД\""
+},
+
+{
+id: 286,
+name: "Одежда 286",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin286.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"ФСБ\""
+},
+
+{
+id: 287,
+name: "ЛД МО",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin287.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Министерство Обороны(Армия)\""
+},
+
+{
+id: 288,
+name: "ЛД ГИБДД",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin288.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"ГИБДД\""
+},
+
+{
+id: 289,
+name: "Одежда 289",
+shopName: "",
+price: "1.000.000",
+donatePrice: "",
+image: "skini/skin289.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 290,
+name: "Одежда 290",
+shopName: "",
+price: "2.730.000",
+donatePrice: "",
+image: "skini/skin290.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 291,
+name: "Одежда 291",
+shopName: "",
+price: "2.925.000",
+donatePrice: "",
+image: "skini/skin291.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 292,
+name: "Одежда 292",
+shopName: "",
+price: "3.000.000",
+donatePrice: "",
+image: "skini/skin292.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 293,
+name: "Одежда 293",
+shopName: "",
+price: "5.850.000",
+donatePrice: "",
+image: "skini/skin293.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 294,
+name: "Одежда 294",
+shopName: "",
+price: "6.000.000",
+donatePrice: "",
+image: "skini/skin294.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 295,
+name: "Одежда 295",
+shopName: "",
+price: "100.000",
+donatePrice: "",
+image: "skini/skin295.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 296,
+name: "Одежда 296",
+shopName: "",
+price: "1.700.000",
+donatePrice: "",
+image: "skini/skin296.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 297,
+name: "Одежда 297",
+shopName: "",
+price: "35.000",
+donatePrice: "",
+image: "skini/skin297.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 298,
+name: "Леди",
+shopName: "ЛЕДИ настоящая госпожа",
+price: "",
+donatePrice: "6.000 Black Coins(BC)",
+image: "skini/skin298.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 299,
+name: "Одежда 299",
+shopName: "",
+price: "350.000",
+donatePrice: "",
+image: "skini/skin299.jpg",
+source: "shop",
+additionalInfo: ""
+},
+
+{
+id: 300,
+name: "Одежда 300",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin300.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 301,
+name: "Иван Золо",
+shopName: "ИВАН БЛОГЕР бабочки",
+price: "",
+donatePrice: "5.000 Black Coins(BC)",
+image: "skini/skin301.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 302,
+name: "Некоглай",
+shopName: "БЛОГЕР твой краш",
+price: "",
+donatePrice: "5.000 Black Coins(BC)",
+image: "skini/skin302.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 303,
+name: "Тестировщик",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin303.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 304,
+name: "Одежда 304",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin304.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Центральная Больница\""
+},
+
+{
+id: 305,
+name: "Одежда 305",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin305.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"Центральная Больница\""
+},
+
+{
+id: 306,
+name: "Одежда 306",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin306.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 307,
+name: "Одежда 307",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin307.jpg",
+source: "all",
+additionalInfo: ""
+},
+
+{
+id: 308,
+name: "Одежда 308",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin308.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"УМВД\""
+},
+
+{
+id: 309,
+name: "Одежда 309",
+shopName: "",
+price: "",
+donatePrice: "",
+image: "skini/skin309.jpg",
+source: "all",
+additionalInfo: "Рабочая форма работников государственной организации \"УМВД\""
+},
+
+{
+id: 310,
+name: "Саша Белый",
+shopName: "САША бандит",
+price: "",
+donatePrice: "4.400 Black Coins(BC)",
+image: "skini/skin310.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+{
+id: 311,
+name: "Фил",
+shopName: "БАНДИТ боксер",
+price: "",
+donatePrice: "3.850 Black Coins(BC)",
+image: "skini/skin311.jpg",
+source: "don",
+additionalInfo: ""
+},
+
+                ];
+                
+                this.resetAndFilterData();
+            }
+            
+            resetAndFilterData() {
+                this.currentBatch = 0;
+                this.displayedSkins = [];
+                this.hasMoreData = true;
+                this.filterData();
+            }
+            
+            filterData() {
+                // Фильтрация по типу
+                this.filteredSkins = this.allSkins.filter(skin => {
+                    if (this.currentFilters.type === 'all') return true;
+                    if (this.currentFilters.type === 'other') return skin.source === 'all';
+                    return skin.source === this.currentFilters.type;
+                });
+                
+                // Фильтрация по поиску
+                if (this.currentFilters.search) {
+                    const query = this.currentFilters.search.toLowerCase();
+                    this.filteredSkins = this.filteredSkins.filter(skin => {
+                        const searchFields = [
+                            skin.name?.toLowerCase() || '',
+                            skin.id.toString(),
+                            skin.shopName?.toLowerCase() || ''
+                        ];
+                        return searchFields.some(field => field.includes(query));
+                    });
+                }
+                
+                // Фильтруем пустые скины (без имени)
+                this.filteredSkins = this.filteredSkins.filter(skin => skin.name && skin.name.trim() !== '');
+                
+                this.loadNextBatch();
+            }
+            
+            loadNextBatch() {
+                if (this.isLoading || !this.hasMoreData) return;
+                
+                this.isLoading = true;
+                this.elements.loadingIndicator.classList.add('visible');
+                
+                setTimeout(() => {
+                    const start = this.currentBatch * this.batchSize;
+                    const end = start + this.batchSize;
+                    const batch = this.filteredSkins.slice(start, end);
+                    
+                    this.displayedSkins = [...this.displayedSkins, ...batch];
+                    this.currentBatch++;
+                    
+                    this.hasMoreData = end < this.filteredSkins.length;
+                    this.renderSkins(batch);
+                    
+                    this.isLoading = false;
+                    this.elements.loadingIndicator.classList.remove('visible');
+                }, 300);
+            }
+            
+            renderSkins(batch) {
+                if (this.currentBatch === 1) {
+                    this.elements.skinsContainer.innerHTML = '';
+                }
+                
+                batch.forEach(skin => {
+                    const card = document.createElement('div');
+                    card.className = 'skin-card';
+                    
+                    // Изображение с ленивой загрузкой
+                    const imgHtml = skin.image ? 
+                        `<img src="placeholder.jpg" data-src="${skin.image}" alt="${skin.name}" class="skin-img loading">` : 
+                        `<div class="no-image">Нет изображения</div>`;
+                    
+                    // Основная информация
+                    let html = `
+                        <div class="skin-img-container">
+                            ${imgHtml}
+                        </div>
+                        <div class="skin-info">
+                            <h3 class="skin-name" title="${skin.name}">${skin.name}</h3>
+                            <div class="skin-id">ID: ${skin.id}</div>
+                    `;
+                    
+                    // Название в магазине
+                    if (skin.shopName && skin.shopName.trim() !== '') {
+                        html += `
+                            <div class="skin-details">
+                                <i class="fas fa-store"></i>
+                                <span title="${skin.shopName}">${skin.shopName}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    // Цена в обычном магазине
+                    if (skin.price && skin.price.trim() !== '') {
+                        html += `
+                            <div class="skin-details">
+                                <i class="fas fa-coins"></i>
+                                <span class="skin-price">${skin.price}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    // Цена в донат магазине
+                    if (skin.donatePrice && skin.donatePrice.trim() !== '') {
+                        html += `
+                            <div class="skin-details">
+                                <i class="fas fa-gem"></i>
+                                <span class="skin-price">${skin.donatePrice}</span>
+                            </div>
+                        `;
+                    }
+                    
+                    // Источник
+                    if (skin.source) {
+                        html += `
+                            <div class="skin-source source-${skin.source}">
+                                ${this.getSourceName(skin.source)}
+                            </div>
+                        `;
+                    }
+                    
+                    // Дополнительная информация
+                    if (skin.additionalInfo && skin.additionalInfo.trim() !== '') {
+                        html += `
+                            <div class="toggle-info" onclick="skinsApp.toggleAdditionalInfo(this)">
+                                <i class="fas fa-chevron-down"></i> Описание
+                            </div>
+                            <div class="additional-info">
+                                ${skin.additionalInfo}
+                            </div>
+                        `;
+                    }
+                    
+                    html += `</div>`; // закрываем skin-info
+                    card.innerHTML = html;
+                    
+                    // Добавляем обработчик для модального окна
+                    const imgContainer = card.querySelector('.skin-img-container');
+                    if (imgContainer) {
+                        imgContainer.addEventListener('click', () => {
+                            if (skin.image) {
+                                this.openModal(skin.image);
+                            }
+                        });
+                    }
+                    
+                    this.elements.skinsContainer.appendChild(card);
+                    
+                    // Наблюдаем за изображениями для ленивой загрузки
+                    const img = card.querySelector('img');
+                    if (img) {
+                        this.intersectionObserver.observe(img);
+                    }
+                });
+                
+                // Обновляем последний видимый элемент для подгрузки
+                this.updateLastVisibleElement();
+                
+                // Подсветка результатов поиска
+                if (this.currentFilters.search) {
+                    this.highlightSearchResults(this.currentFilters.search);
+                }
+            }
+            
+            updateLastVisibleElement() {
+                const cards = this.elements.skinsContainer.querySelectorAll('.skin-card');
+                if (cards.length > 0) {
+                    this.lastVisibleElement = cards[cards.length - 1];
+                    this.intersectionObserver.observe(this.lastVisibleElement);
+                }
+            }
+            
+            getSourceName(source) {
+                switch(source) {
+                    case 'bp': return 'BLACK PASS';
+                    case 'shop': return 'МАГАЗИН ОДЕЖДЫ';
+                    case 'don': return 'ДОНАТ МАГАЗИН';
+                    case 'all': return 'ДРУГОЕ';
+                    default: return '';
+                }
+            }
+            
+            toggleAdditionalInfo(element) {
+                const info = element.nextElementSibling;
+                const icon = element.querySelector('i');
+                
+                if (info.style.display === 'block') {
+                    info.style.display = 'none';
+                    element.classList.remove('active');
+                } else {
+                    info.style.display = 'block';
+                    element.classList.add('active');
+                }
+            }
+            
+            highlightSearchResults(query) {
+                const cards = this.elements.skinsContainer.querySelectorAll('.skin-card');
+                const lowerQuery = query.toLowerCase();
+                
+                cards.forEach(card => {
+                    card.classList.remove('highlighted');
+                    
+                    const skinName = card.querySelector('.skin-name').textContent.toLowerCase();
+                    const skinId = card.querySelector('.skin-id').textContent.toLowerCase();
+                    const skinShopName = card.querySelector('.skin-details:nth-of-type(1) span')?.textContent.toLowerCase() || '';
+                    
+                    if (skinName.includes(lowerQuery) || 
+                        skinId.includes(lowerQuery) || 
+                        skinShopName.includes(lowerQuery)) {
+                        card.classList.add('highlighted');
+                    }
+                });
+            }
+            
+            openModal(imgSrc) {
+                this.elements.modalImg.src = imgSrc;
+                this.elements.modal.style.display = "block";
+                document.body.style.overflow = "hidden";
+            }
+            
+            closeModal() {
+                this.elements.modal.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+            
+            updateUI() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const username = urlParams.get('user');
+                
+                if (username) {
+                    this.elements.usernameDisplay.textContent = username;
+                    this.elements.userAvatar.textContent = username.charAt(0).toUpperCase();
+                }
+                
+                const searchQuery = urlParams.get('search');
+                if (searchQuery) {
+                    this.elements.searchInput.value = searchQuery;
+                    this.currentFilters.search = searchQuery;
+                    this.filterData();
+                }
+            }
+        }
+        
+        // Инициализация приложения
+        document.addEventListener('DOMContentLoaded', () => {
+            window.skinsApp = new SkinsApp();
+        });
+    </script>
+</body>
+</html>

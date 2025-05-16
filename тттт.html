@@ -7381,29 +7381,24 @@ additionalInfo: ""
                 this.filterData();
             }
             
-            filterData() {
-                // Фильтрация по типу
-                this.filteredSkins = this.allSkins.filter(skin => {
-                    if (this.currentFilters.type === 'all') return true;
-                    if (this.currentFilters.type === 'other') return skin.source === 'other';
-                    return skin.source === this.currentFilters.type;
-                });
+filterData() {
+    // Фильтрация по типу
+    this.filteredSkins = this.allSkins.filter(skin => {
+        if (this.currentFilters.type === 'all') {
+            // "Все" — вообще все скины без исключений
+            return true;
+        } 
+        else if (this.currentFilters.type === 'other') {
+            // "Другое" — ТОЛЬКО скины с source: "all"
+            return skin.source === 'all';
+        }
+        else {
+            // Остальные фильтры (bp/shop/don) — только их скины
+            return skin.source === this.currentFilters.type;
+        }
+    });
+
                 
-                // Фильтрация по поиску
-                if (this.currentFilters.search) {
-                    const query = this.currentFilters.search.toLowerCase();
-                    this.filteredSkins = this.filteredSkins.filter(skin => {
-                        const searchFields = [
-                            skin.name?.toLowerCase() || '',
-                            skin.id.toString(),
-                            skin.shopName?.toLowerCase() || ''
-                        ];
-                        return searchFields.some(field => field.includes(query));
-                    });
-                }
-                
-                // Фильтруем пустые скины (без имени)
-                this.filteredSkins = this.filteredSkins.filter(skin => skin.name && skin.name.trim() !== '');
                 
                 this.loadNextBatch();
             }
@@ -7450,7 +7445,7 @@ additionalInfo: ""
                             ${imgHtml}
                         </div>
                         <div class="skin-info">
-                            <h3 class="skin-name" title="${skin.name}">${skin.name}</h3>
+                            <h3 class="skin-name" title="${skin.name || 'Без названия'}">${skin.name || `Без названия (ID: ${skin.id})`}</h3>
                             <div class="skin-id">ID: ${skin.id}</div>
                     `;
                     
@@ -7574,7 +7569,7 @@ additionalInfo: ""
                 cards.forEach(card => {
                     card.classList.remove('highlighted');
                     
-                    const skinName = card.querySelector('.skin-name').textContent.toLowerCase();
+                    const skinName = card.querySelector('.skin-name')?.textContent.toLowerCase() || '';
                     const skinId = card.querySelector('.skin-id').textContent.toLowerCase();
                     const skinShopName = card.querySelector('.skin-details:nth-of-type(1) span')?.textContent.toLowerCase() || '';
                     

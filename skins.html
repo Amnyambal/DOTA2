@@ -263,20 +263,39 @@
             box-shadow: var(--shadow-md);
             border-color: var(--accent-primary);
         }
-        .skin-img-container {
-            width: 100%;
-            height: 180px;
-            position: relative;
-            overflow: hidden;
-            background: linear-gradient(135deg, #1a1a2a, #2a2a3a);
-            cursor: pointer;
-        }
-        .skin-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform var(--transition-normal);
-        }
+.skin-img-container {
+    width: 100%;
+    height: 180px; /* Фиксированная высота */
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-card); /* Простой фон вместо градиента */
+    cursor: pointer;
+    display: flex; /* Центрируем изображение */
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border-light); /* Разделитель между картинкой и текстом */
+}
+
+.skin-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Важно: contain вместо cover */
+    transition: transform var(--transition-normal);
+    background-color: var(--bg-card); /* Фон на случай прозрачных PNG */
+}
+
+/* Если хотите, чтобы вертикальные изображения занимали больше места */
+.skin-img.portrait {
+    height: 100%;
+    width: auto;
+}
+
+/* Если хотите, чтобы горизонтальные изображения занимали больше места */
+.skin-img.landscape {
+    width: 100%;
+    height: auto;
+}
+        
         .skin-img.loading {
             opacity: 0;
         }
@@ -471,6 +490,36 @@
             color: var(--text-primary);
             transform: rotate(90deg);
         }
+
+         .skin-img-container {
+            width: 100%;
+            height: 180px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1a1a2a, #2a2a3a);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .skin-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform var(--transition-normal);
+            background-color: var(--bg-card);
+        }
+        
+        .skin-img.portrait {
+            width: auto;
+            height: 100%;
+        }
+        
+        .skin-img.landscape {
+            width: 100%;
+            height: auto;
+        }
         /* Анимации */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -613,6 +662,37 @@
         <img class="modal-content" id="modalImage">
     </div>
     <script>
+        // Внутри renderSkins(), где создаётся imgHtml:
+if (skin.image) {
+    imgHtml = `
+        <img 
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 180'%3E%3Crect width='240' height='180' fill='%231E1E2A'/%3E%3Ctext x='50%' y='50%' fill='%236A6A8A' font-family='Arial' font-size='14' text-anchor='middle' dominant-baseline='middle'%3EЗагрузка...%3C/text%3E%3C/svg%3E" 
+            data-src="${skin.image}" 
+            alt="${skin.name}" 
+            class="skin-img loading"
+            onload="this.classList.remove('loading'); this.classList.add('loaded');"
+        >
+    `;
+    
+    // Предзагрузка для определения пропорций
+    const img = new Image();
+    img.src = skin.image;
+    img.onload = function() {
+        const cards = document.querySelectorAll('.skin-card');
+        cards.forEach(card => {
+            const imgElement = card.querySelector(`img[data-src="${skin.image}"]`);
+            if (imgElement) {
+                if (this.height > this.width) {
+                    imgElement.classList.add('portrait');
+                } else {
+                    imgElement.classList.add('landscape');
+                }
+            }
+        });
+    };
+} else {
+    imgHtml = `<div class="no-image">Нет изображения</div>`;
+}
         class SkinsApp {
             constructor() {
                 this.allSkins = [];

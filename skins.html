@@ -34,7 +34,6 @@
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--bg-dark);
@@ -45,13 +44,11 @@
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
         }
-
         .app-container {
             display: grid;
             grid-template-rows: auto 1fr auto;
             min-height: 100vh;
         }
-
         .app-header {
             padding: 0 24px;
             height: 64px;
@@ -64,7 +61,6 @@
             top: 0;
             z-index: 100;
         }
-
         .logo {
             display: flex;
             align-items: center;
@@ -74,56 +70,16 @@
             font-weight: 600;
             color: var(--text-primary);
         }
-
         .logo-icon {
             color: var(--accent-primary);
             font-size: 20px;
         }
-
-        .user-nav {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform var(--transition-fast);
-        }
-
-        .user-avatar:hover {
-            transform: scale(1.05);
-        }
-
-        .logout-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 14px;
-            transition: color var(--transition-fast);
-        }
-
-        .logout-btn:hover {
-            color: var(--accent-primary);
-        }
-
         .main-content {
             padding: 24px;
             max-width: 1440px;
             margin: 0 auto;
             width: 100%;
         }
-
         .toolbar {
             display: flex;
             justify-content: space-between;
@@ -131,7 +87,6 @@
             margin-bottom: 24px;
             gap: 16px;
         }
-
         .page-title {
             font-size: 24px;
             font-weight: 600;
@@ -140,16 +95,13 @@
             align-items: center;
             gap: 12px;
         }
-
         .page-title-icon {
             color: var(--accent-primary);
         }
-
         .actions-group {
             display: flex;
             gap: 12px;
         }
-
         .btn {
             padding: 8px 16px;
             border-radius: 6px;
@@ -163,56 +115,26 @@
             border: none;
             outline: none;
         }
-
-        .btn-primary {
-            background: var(--accent-primary);
-            color: white;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .btn-primary:hover {
-            background: #00B0E6;
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
-
         .btn-secondary {
             background: var(--bg-card);
             color: var(--text-primary);
             border: 1px solid var(--border-light);
         }
-
         .btn-secondary:hover {
             background: var(--bg-hover);
             border-color: var(--accent-primary);
         }
-
-        .btn-icon {
-            padding: 8px;
-            border-radius: 6px;
-            background: var(--bg-card);
-            color: var(--text-secondary);
-            border: 1px solid var(--border-light);
-        }
-
-        .btn-icon:hover {
-            color: var(--accent-primary);
-            border-color: var(--accent-primary);
-        }
-
         .search-filter-container {
             display: flex;
             gap: 16px;
             margin-bottom: 24px;
             flex-direction: column;
         }
-
         .search-box {
             flex: 1;
             position: relative;
             width: 100%;
         }
-
         .search-input {
             width: 100%;
             padding: 10px 16px 10px 40px;
@@ -223,12 +145,10 @@
             font-size: 14px;
             transition: all var(--transition-fast);
         }
-
         .search-input:focus {
             border-color: var(--accent-primary);
             box-shadow: 0 0 0 2px rgba(0, 194, 255, 0.2);
         }
-
         .search-icon {
             position: absolute;
             left: 12px;
@@ -236,13 +156,11 @@
             transform: translateY(-50%);
             color: var(--text-tertiary);
         }
-
         .filter-group {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
         }
-
         .filter-tag {
             padding: 8px 12px;
             background: var(--bg-card);
@@ -258,18 +176,15 @@
             position: relative;
             overflow: hidden;
         }
-
         .filter-tag:hover {
             border-color: var(--accent-primary);
             color: var(--accent-primary);
         }
-
         .filter-tag.active {
             background: rgba(0, 194, 255, 0.1);
             border-color: var(--accent-primary);
             color: var(--accent-primary);
         }
-
         .filter-tag::after {
             content: '';
             position: absolute;
@@ -282,51 +197,41 @@
             transition: transform var(--transition-fast);
             transform-origin: left;
         }
-
         .filter-tag.active::after {
             transform: scaleX(1);
         }
-
         .filter-tag[data-filter="bp"]::after {
             background: var(--source-blackpass);
         }
-
         .filter-tag[data-filter="shop"]::after {
             background: var(--source-shop);
         }
-
         .filter-tag[data-filter="don"]::after {
             background: var(--source-donate);
         }
-
         .filter-tag[data-filter="other"]::after {
             background: var(--source-other);
         }
-
         .filter-tag.active[data-filter="bp"] {
             color: var(--source-blackpass);
             border-color: var(--source-blackpass);
             background: rgba(163, 53, 238, 0.1);
         }
-
         .filter-tag.active[data-filter="shop"] {
             color: var(--source-shop);
             border-color: var(--source-shop);
             background: rgba(76, 139, 245, 0.1);
         }
-
         .filter-tag.active[data-filter="don"] {
             color: var(--source-donate);
             border-color: var(--source-donate);
             background: rgba(255, 128, 0, 0.1);
         }
-
         .filter-tag.active[data-filter="other"] {
             color: var(--source-other);
             border-color: var(--source-other);
             background: rgba(29, 185, 84, 0.1);
         }
-
         .skins-grid-container {
             background: var(--bg-card);
             border-radius: 8px;
@@ -335,17 +240,16 @@
             box-shadow: var(--shadow-sm);
             position: relative;
         }
-
         .skins-grid-wrapper {
             width: 100%;
-            max-height: calc(100vh - 300px);
+            max-height: calc(100vh - 220px);
             overflow-y: auto;
             padding: 16px;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             gap: 16px;
+            transition: all var(--transition-normal);
         }
-
         .skin-card {
             background: var(--bg-dark);
             border-radius: 8px;
@@ -354,38 +258,32 @@
             border: 1px solid var(--border-light);
             position: relative;
         }
-
         .skin-card:hover {
             transform: translateY(-5px);
             box-shadow: var(--shadow-md);
             border-color: var(--accent-primary);
         }
-
         .skin-img-container {
             width: 100%;
             height: 180px;
             position: relative;
             overflow: hidden;
-            background: rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #1a1a2a, #2a2a3a);
             cursor: pointer;
         }
-
         .skin-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform var(--transition-normal);
         }
-
         .skin-img.loading {
             opacity: 0;
         }
-
         .skin-img.loaded {
             opacity: 1;
             animation: fadeIn 0.5s ease;
         }
-
         .no-image {
             width: 100%;
             height: 100%;
@@ -395,11 +293,9 @@
             color: var(--text-tertiary);
             font-size: 14px;
         }
-
         .skin-info {
             padding: 14px;
         }
-
         .skin-name {
             font-size: 16px;
             font-weight: 500;
@@ -408,14 +304,12 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
         .skin-id {
             font-size: 13px;
             color: var(--accent-primary);
             opacity: 0.8;
             margin-bottom: 8px;
         }
-
         .skin-details {
             font-size: 13px;
             margin-bottom: 5px;
@@ -424,19 +318,16 @@
             gap: 6px;
             color: var(--text-secondary);
         }
-
         .skin-details i {
             color: var(--accent-primary);
             width: 16px;
             text-align: center;
             font-size: 12px;
         }
-
         .skin-price {
             color: var(--price);
             font-weight: 500;
         }
-
         .skin-source {
             display: inline-block;
             padding: 4px 8px;
@@ -450,7 +341,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .skin-source::after {
             content: '';
             position: absolute;
@@ -462,11 +352,9 @@
             transform: translateX(-100%);
             transition: transform 0.6s ease;
         }
-
         .skin-source:hover::after {
             transform: translateX(100%);
         }
-
         .source-bp { 
             background-color: var(--source-blackpass);
             box-shadow: 0 2px 8px rgba(163, 53, 238, 0.4);
@@ -479,15 +367,10 @@
             background-color: var(--source-donate);
             box-shadow: 0 2px 8px rgba(255, 128, 0, 0.4);
         }
-.source-other { 
-    background-color: var(--source-other);
-    box-shadow: 0 2px 8px rgba(29, 185, 84, 0.4);
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-}
-}
-
+        .source-all { 
+            background-color: var(--source-other);
+            box-shadow: 0 2px 8px rgba(29, 185, 84, 0.4);
+        }
         .additional-info {
             display: none;
             padding: 10px;
@@ -498,7 +381,6 @@
             border-left: 3px solid var(--accent-primary);
             color: var(--text-secondary);
         }
-
         .toggle-info {
             color: var(--accent-primary);
             font-size: 12px;
@@ -509,31 +391,25 @@
             gap: 4px;
             transition: color var(--transition-fast);
         }
-
         .toggle-info:hover {
             color: var(--text-primary);
         }
-
         .toggle-info i {
             font-size: 10px;
             transition: transform var(--transition-fast);
         }
-
         .toggle-info.active i {
             transform: rotate(180deg);
         }
-
         .loading-indicator {
             padding: 20px;
             text-align: center;
             color: var(--text-tertiary);
             display: none;
         }
-
         .loading-indicator.visible {
             display: block;
         }
-
         .loading-spinner {
             border: 2px solid var(--text-tertiary);
             border-top: 2px solid var(--accent-primary);
@@ -543,12 +419,10 @@
             animation: spin 1s linear infinite;
             margin: 0 auto;
         }
-
         .highlighted {
             animation: pulse 2s infinite;
             border: 2px solid var(--accent-primary);
         }
-
         .app-footer {
             padding: 16px 24px;
             text-align: center;
@@ -556,7 +430,6 @@
             color: var(--text-tertiary);
             border-top: 1px solid var(--border-light);
         }
-
         /* Модальное окно */
         .modal {
             display: none;
@@ -570,7 +443,6 @@
             overflow: auto;
             animation: fadeIn 0.3s;
         }
-
         .modal-content {
             display: block;
             margin: auto;
@@ -585,7 +457,6 @@
             box-shadow: 0 0 30px rgba(0, 194, 255, 0.5);
             animation: zoomIn 0.3s;
         }
-
         .close {
             position: absolute;
             top: 20px;
@@ -596,101 +467,82 @@
             cursor: pointer;
             transition: 0.3s;
         }
-
         .close:hover {
             color: var(--text-primary);
             transform: rotate(90deg);
         }
-
         /* Анимации */
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
         @keyframes zoomIn {
             from { transform: translate(-50%, -50%) scale(0.9); }
             to { transform: translate(-50%, -50%) scale(1); }
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 rgba(0, 194, 255, 0.4); }
             70% { box-shadow: 0 0 0 10px rgba(0, 194, 255, 0); }
             100% { box-shadow: 0 0 0 0 rgba(0, 194, 255, 0); }
         }
-
         /* Адаптивность */
         @media (max-width: 1024px) {
             .skins-grid-wrapper {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
         }
-
         @media (max-width: 768px) {
             .app-header {
                 padding: 0 16px;
             }
-            
             .main-content {
                 padding: 16px;
             }
-            
             .toolbar {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 12px;
             }
-            
             .actions-group {
                 width: 100%;
                 justify-content: space-between;
             }
-            
             .skins-grid-wrapper {
                 grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
                 gap: 12px;
             }
-            
             .skin-img-container {
                 height: 150px;
             }
-            
             .modal-content {
                 max-width: 95%;
                 max-height: 80%;
             }
-
             .close {
                 font-size: 30px;
                 top: 15px;
                 right: 20px;
             }
         }
-
         @media (max-width: 480px) {
             .page-title {
                 font-size: 20px;
             }
-            
             .filter-tag {
                 padding: 6px 10px;
                 font-size: 12px;
             }
-            
             .btn {
                 padding: 6px 12px;
                 font-size: 13px;
             }
-            
             .skins-grid-wrapper {
                 grid-template-columns: 1fr;
             }
-            
             .skin-img-container {
                 height: 180px;
             }
@@ -700,39 +552,29 @@
 <body>
     <div class="app-container">
         <header class="app-header">
-            <a href="index.html?user=Амрам" class="logo">
+            <a href="index.html" class="logo">
                 <i class="fas fa-database logo-icon"></i>
                 <span>SkinWiki</span>
             </a>
-            
-            <div class="user-nav">
-                <span id="username-display">Лямбля</span>
-                <div class="user-avatar" id="user-avatar">А</div>
-                <button class="logout-btn" id="logout-btn">Выйти</button>
-            </div>
         </header>
-        
         <main class="main-content">
             <div class="toolbar">
                 <h1 class="page-title">
                     <i class="fas fa-user-astronaut page-title-icon"></i>
                     <span>Скины</span>
                 </h1>
-                
                 <div class="actions-group">
-                    <a href="index.html?user=Амрам" class="btn btn-secondary">
+                    <a href="index.html" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i>
                         Назад
                     </a>
                 </div>
             </div>
-            
             <div class="search-filter-container">
                 <div class="search-box">
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" class="search-input" placeholder="Поиск по ID, названию" id="skin-search">
                 </div>
-                
                 <div class="filter-group" id="filter-group">
                     <div class="filter-tag active" data-filter="all">
                         <span>Все</span>
@@ -751,7 +593,6 @@
                     </div>
                 </div>
             </div>
-            
             <div class="skins-grid-container">
                 <div class="skins-grid-wrapper" id="skins-container">
                     <!-- Скины будут загружены через JavaScript -->
@@ -762,18 +603,15 @@
                 </div>
             </div>
         </main>
-        
         <footer class="app-footer">
             <p>SkinWiki © 2023</p>
         </footer>
     </div>
-
     <!-- Модальное окно для увеличения фото -->
     <div id="imageModal" class="modal">
         <span class="close">&times;</span>
         <img class="modal-content" id="modalImage">
     </div>
-
     <script>
         class SkinsApp {
             constructor() {
@@ -797,7 +635,6 @@
                 this.initEvents();
                 this.initIntersectionObserver();
                 this.loadInitialData();
-                this.updateUI();
             }
             
             initElements() {
@@ -806,9 +643,6 @@
                     filterTags: document.querySelectorAll('#filter-group .filter-tag'),
                     skinsContainer: document.getElementById('skins-container'),
                     loadingIndicator: document.getElementById('loading-indicator'),
-                    userAvatar: document.getElementById('user-avatar'),
-                    usernameDisplay: document.getElementById('username-display'),
-                    logoutBtn: document.getElementById('logout-btn'),
                     modal: document.getElementById('imageModal'),
                     modalImg: document.getElementById('modalImage'),
                     closeBtn: document.querySelector('.close')
@@ -843,13 +677,6 @@
                         this.closeModal();
                     }
                 });
-                
-                // Выход
-                this.elements.logoutBtn.addEventListener('click', () => {
-                    if (confirm('Вы уверены, что хотите выйти?')) {
-                        window.location.href = 'index.html';
-                    }
-                });
             }
             
             initIntersectionObserver() {
@@ -865,7 +692,6 @@
                                 this.intersectionObserver.unobserve(img);
                             }
                             
-                            // Если это последний элемент, загружаем следующую партию скинов
                             if (img === this.lastVisibleElement && this.hasMoreData && !this.isLoading) {
                                 this.loadNextBatch();
                             }
@@ -878,18 +704,17 @@
             }
             
             loadInitialData() {
-                // Здесь вы вставите ваш массив скинов вручную
                 this.allSkins = [
-                   { 
-                        id: 2, 
-                        name: "Рикардо Милос", 
-                        shopName: "РИКАРДО МИЛОС флексер", 
-                        price: "", 
-                        donatePrice: "2.500 Black Coins(BC)", 
-                        image: "skini/Рикардо Милос (2).jpg", 
-                        source: "don",
-                        additionalInfo: ""
-                    },
+        { 
+             id: 2, 
+             name: "Рикардо Милос", 
+             shopName: "РИКАРДО МИЛОС флексер", 
+             price: "", 
+             donatePrice: "2.500 Black Coins(BC)", 
+             image: "skini/Рикардо Милос (2).jpg", 
+             source: "don",
+             additionalInfo: ""
+        },
         { 
             id: 3, 
             name: "Одежда 3", 
@@ -7384,25 +7209,36 @@ additionalInfo: ""
                 this.filterData();
             }
             
-filterData() {
-    // Фильтрация по типу
-    this.filteredSkins = this.allSkins.filter(skin => {
-        if (this.currentFilters.type === 'all') {
-            // "Все" — вообще все скины без исключений
-            return true;
-        } 
-        else if (this.currentFilters.type === 'other') {
-            // "Другое" — ТОЛЬКО скины с source: "all"
-            return skin.source === 'all';
-        }
-        else {
-            // Остальные фильтры (bp/shop/don) — только их скины
-            return skin.source === this.currentFilters.type;
-        }
-    });
+this.resetAndFilterData();
+            }
+            
+            resetAndFilterData() {
+                this.currentBatch = 0;
+                this.displayedSkins = [];
+                this.hasMoreData = true;
+                this.filterData();
+            }
 
-                
-                
+            filterData() {
+                // Фильтрация по типу
+                this.filteredSkins = this.allSkins.filter(skin => {
+                    if (this.currentFilters.type === 'all') return true;
+                    if (this.currentFilters.type === 'other') return skin.source === 'all';
+                    return skin.source === this.currentFilters.type;
+                });
+
+                // Фильтрация по поиску
+                if (this.currentFilters.search) {
+                    const searchLower = this.currentFilters.search.toLowerCase();
+                    this.filteredSkins = this.filteredSkins.filter(skin => {
+                        return (
+                            (skin.name && skin.name.toLowerCase().includes(searchLower)) ||
+                            (skin.id.toString().includes(searchLower)) ||
+                            (skin.shopName && skin.shopName.toLowerCase().includes(searchLower))
+                        );
+                    });
+                }
+
                 this.loadNextBatch();
             }
             
@@ -7439,7 +7275,8 @@ filterData() {
                     
                     // Изображение с ленивой загрузкой
                     const imgHtml = skin.image ? 
-                        `<img src="placeholder.jpg" data-src="${skin.image}" alt="${skin.name}" class="skin-img loading">` : 
+                        `<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 180'%3E%3Crect width='240' height='180' fill='%231E1E2A'/%3E%3Ctext x='50%' y='50%' fill='%236A6A8A' font-family='Arial' font-size='14' text-anchor='middle' dominant-baseline='middle'%3EЗагрузка...%3C/text%3E%3C/svg%3E" 
+                         data-src="${skin.image}" alt="${skin.name}" class="skin-img loading">` : 
                         `<div class="no-image">Нет изображения</div>`;
                     
                     // Основная информация
@@ -7484,8 +7321,9 @@ filterData() {
                     
                     // Источник
                     if (skin.source) {
+                        const sourceClass = skin.source === 'all' ? 'source-all' : `source-${skin.source}`;
                         html += `
-                            <div class="skin-source source-${skin.source}">
+                            <div class="skin-source ${sourceClass}">
                                 ${this.getSourceName(skin.source)}
                             </div>
                         `;
@@ -7594,26 +7432,9 @@ filterData() {
                 this.elements.modal.style.display = "none";
                 document.body.style.overflow = "auto";
             }
-            
-            updateUI() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const username = urlParams.get('user');
-                
-                if (username) {
-                    this.elements.usernameDisplay.textContent = username;
-                    this.elements.userAvatar.textContent = username.charAt(0).toUpperCase();
-                }
-                
-                const searchQuery = urlParams.get('search');
-                if (searchQuery) {
-                    this.elements.searchInput.value = searchQuery;
-                    this.currentFilters.search = searchQuery;
-                    this.filterData();
-                }
-            }
         }
         
-        // Инициализация приложенияпппп
+        // Инициализация приложения
         document.addEventListener('DOMContentLoaded', () => {
             window.skinsApp = new SkinsApp();
         });
